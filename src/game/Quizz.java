@@ -29,15 +29,16 @@ public class Quizz {
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         service = Executors.newCachedThreadPool();
-        int numberOfConnections = 0;
+        int numberOfConnections = -1;
         System.out.printf(Messages.SERVER_STARTED, port);
         sendQuestion();
 
 
 
         while (true) {
-            acceptConnection(numberOfConnections);
             ++numberOfConnections;
+            acceptConnection(numberOfConnections);
+
         }
     }
 
@@ -94,10 +95,11 @@ public class Quizz {
             clients.stream()
                     .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.CORRECT_ANSWER ));
             broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
-        }
+        }else {
         clients.stream()
                 .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.WRONG_ANSWER));
         broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
+        }
     }
 
     public void broadcast(String name, String playerAnswer) {
@@ -161,7 +163,7 @@ public class Quizz {
                     if(message.matches("(?i)[abcd]")){
                         playerAnswer = message;
                         playerResponse(this);
-                        continue;
+                        return;
                     }
                     if (message.equals("")) {
                         continue;
@@ -171,9 +173,9 @@ public class Quizz {
                 }
             } catch (IOException e) {
                 System.err.println(Messages.CLIENT_ERROR + e.getMessage());
-            } finally {
+            } /*finally {
                 removeClient(this);
-            }
+            }*/
         }
 
         private boolean isCommand(String message) {
@@ -227,7 +229,7 @@ public class Quizz {
     }
     public boolean isAnswerRight(String playerAnswer){
         if(playerAnswer.toLowerCase().equals(question.rightAnswer)){
-            playerAnswer.notifyAll();
+            //playerAnswer.notifyAll();
             return true;
         }
         return false;
