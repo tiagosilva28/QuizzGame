@@ -158,6 +158,7 @@ public class Quizz {
         public void run() {
             addClient(this);
             sendQuestion(this);
+            //Asadasdasd
             try {
                 // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 Scanner in = new Scanner(clientSocket.getInputStream());
