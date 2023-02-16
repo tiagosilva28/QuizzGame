@@ -4,8 +4,8 @@ import java.io.*;
 import java.net.Socket;
 
 public class Player {
-    String userName;
-    int score;
+    private String userName;
+    private int score;
 
     public int getScore() {
         return score;
@@ -41,6 +41,7 @@ public class Player {
         private BufferedWriter out;
         private Socket socket;
         private BufferedReader in;
+        private String playerAnswer;
 
         public KeyboardHandler(BufferedWriter out, Socket socket) {
             this.out = out;
@@ -62,6 +63,9 @@ public class Player {
                     if (line.equals("/quit")) {
                         socket.close();
                         System.exit(0);
+                    }
+                    if(line.equals("(?i)[abcd]")){
+                        this.playerAnswer = line;
                     }
                 } catch (IOException e) {
                     System.out.println("Something went wrong with the server. Connection closing...");
