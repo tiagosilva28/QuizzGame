@@ -6,11 +6,10 @@ import messages.Messages;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,47 +20,54 @@ public class Quizz {
     private final List<ClientConnectionHandler> clients;
     private Path fileQuestions;
     private Question question;
+    private boolean hasResponded = true;
+    private List<String> questionLines = new ArrayList<>();
 
-    public Quizz(){
+    public Quizz() {
         clients = new CopyOnWriteArrayList<>();
     }
 
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         service = Executors.newCachedThreadPool();
-        int numberOfConnections = -1;
+        int numberOfConnections = 0;
         System.out.printf(Messages.SERVER_STARTED, port);
         sendQuestion();
 
 
-
         while (true) {
-            ++numberOfConnections;
             acceptConnection(numberOfConnections);
+            ++numberOfConnections;
 
         }
     }
 
-    protected void sendQuestion(){
+    protected void sendQuestion() {
         Path fileQuestions = Paths.get("resources/questions.txt");
         question = new Question();
         try (BufferedReader br = new BufferedReader(new FileReader(fileQuestions.toFile()))) {
-            String line;
-            line = br.readLine();
+            //String line = br.readLine();
+            int lineNumber= (int) br.lines().count();
+            for ( int i = 0; i < lineNumber; i++) {
+                String line = Files.readAllLines(fileQuestions).get(i);
                 String[] parts = line.split("::");
-                System.out.println(parts[0]);
+                // System.out.println(parts[0]);
                 question.sentence = parts[0];
                 question.rightAnswer = parts[1];
                 question.multipleChoices = parts[2].split(";");
                 question.difficulty = parts[3];
                 question.category = parts[4];
-
+                hasResponded = false;
+                //line = br.readLine();
+            }
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
     public void acceptConnection(int numberOfConnections) throws IOException {
         Socket clientSocket = serverSocket.accept();
@@ -89,7 +95,9 @@ public class Quizz {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+
         }
+
 
         if(isAnswerRight(clientConnectionHandler.playerAnswer)){
             clients.stream()
@@ -100,6 +108,7 @@ public class Quizz {
                 .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.WRONG_ANSWER));
         broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
         }
+        hasResponded=true;
     }
 
     public void broadcast(String name, String playerAnswer) {

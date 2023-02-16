@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="split of question">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/questions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/questions.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Quizz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quizz.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -149,23 +149,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>85</line>
-          <option name="timeStamp" value="2" />
+          <line>49</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>93</line>
-          <option name="timeStamp" value="3" />
+          <line>50</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>98</line>
-          <option name="timeStamp" value="4" />
+          <line>52</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>230</line>
-          <option name="timeStamp" value="5" />
+          <line>54</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
