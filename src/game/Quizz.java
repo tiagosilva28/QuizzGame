@@ -3,11 +3,14 @@ package game;
 import commands.Command;
 import messages.Messages;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -19,6 +22,8 @@ public class Quizz {
     private ServerSocket serverSocket;
     private ExecutorService service;
     private final List<ClientConnectionHandler> clients;
+    private Path fileQuestions;
+    private Question question;
 
     public Quizz(){
         clients = new CopyOnWriteArrayList<>();
@@ -29,10 +34,34 @@ public class Quizz {
         service = Executors.newCachedThreadPool();
         int numberOfConnections = 0;
         System.out.printf(Messages.SERVER_STARTED, port);
+        sendQuestion();
+        System.out.println(question);
+
 
         while (true) {
             acceptConnection(numberOfConnections);
             ++numberOfConnections;
+        }
+    }
+
+    protected void sendQuestion(){
+        Path fileQuestions = Paths.get("resources/questions.txt");
+        question = new Question();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileQuestions.toFile()))) {
+            String line;
+            line = br.readLine();
+                String[] parts = line.split("::");
+                System.out.println(parts[0]);
+                question.sentence = parts[0];
+                question.rightAnswer = parts[1];
+                question.multipleChoices = parts[2].split(";");
+                question.difficulty = parts[3];
+                question.category = parts[4];
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
