@@ -18,7 +18,7 @@ public class Player {
     public static void main(String[] args) {
         Player player = new Player();
         try {
-            player.start("localhost",8084);
+            player.start("localhost",8085);
         }catch (IOException e){
             System.out.println("Connection closed");
         }
@@ -75,7 +75,9 @@ public class Player {
         }
     }
 
-    protected void selectAnswer(){}
+    protected void selectAnswer(){
+
+    }
 
 
 }

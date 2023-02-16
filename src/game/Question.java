@@ -12,12 +12,14 @@ public class Question {
 
     @Override
     public String toString() {
-        return "Question{" +
-                "sentence='" + sentence + '\'' +
-                ", multipleChoices=" + Arrays.toString(multipleChoices) +
-                ", rightAnswer='" + rightAnswer + '\'' +
-                ", category='" + category + '\'' +
-                ", difficulty='" + difficulty + '\'' +
-                '}';
+        return
+                sentence + "\n" +
+                Arrays.toString(multipleChoices) + "\n" +
+                "Category: " + category + "\n" +
+                "Question Level: " + difficulty;
     }
+
+
+
+
 }

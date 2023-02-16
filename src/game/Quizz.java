@@ -6,11 +6,8 @@ import messages.Messages;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -35,7 +32,7 @@ public class Quizz {
         int numberOfConnections = 0;
         System.out.printf(Messages.SERVER_STARTED, port);
         sendQuestion();
-        System.out.println(question);
+
 
 
         while (true) {
@@ -84,11 +81,37 @@ public class Quizz {
         clientConnectionHandler.send(Messages.COMMANDS_LIST);
         broadcast(clientConnectionHandler.getName(), Messages.CLIENT_ENTERED_CHAT);
     }
+    private void playerResponse(ClientConnectionHandler clientConnectionHandler){
+        while(clientConnectionHandler.playerAnswer == "") {
+            try {
+                clientConnectionHandler.playerAnswer.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-    public void broadcast(String name, String message) {
+        if(isAnswerRight(clientConnectionHandler.playerAnswer)){
+            clients.stream()
+                    .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.CORRECT_ANSWER ));
+            broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
+        }
+        clients.stream()
+                .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.WRONG_ANSWER));
+        broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
+    }
+
+    public void broadcast(String name, String playerAnswer) {
         clients.stream()
                 .filter(handler -> !handler.getName().equals(name))
-                .forEach(handler -> handler.send(name + ": " + message));
+                .forEach(handler -> handler.send(name + ": " + question));
+
+
+
+    }
+    public void broadcast2(String name, String message) {
+        clients.stream()
+                .filter(handler -> !handler.getName().equals(name))
+                .forEach(handler -> handler.send(name + ": " + question));
     }
 
 
@@ -115,6 +138,7 @@ public class Quizz {
         private Socket clientSocket;
         private BufferedWriter out;
         private String message;
+        private String playerAnswer;
 
         public ClientConnectionHandler(Socket clientSocket, String name) throws IOException {
             this.clientSocket = clientSocket;
@@ -132,6 +156,11 @@ public class Quizz {
                     message = in.nextLine();
                     if (isCommand(message)) {
                         dealWithCommand(message);
+                        continue;
+                    }
+                    if(message.matches("(?i)[abcd]")){
+                        playerAnswer = message;
+                        playerResponse(this);
                         continue;
                     }
                     if (message.equals("")) {
@@ -195,6 +224,13 @@ public class Quizz {
         public String getMessage() {
             return message;
         }
+    }
+    public boolean isAnswerRight(String playerAnswer){
+        if(playerAnswer.toLowerCase().equals(question.rightAnswer)){
+            playerAnswer.notifyAll();
+            return true;
+        }
+        return false;
     }
 
 
