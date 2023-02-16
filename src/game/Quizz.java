@@ -6,7 +6,6 @@ import messages.Messages;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -17,14 +16,13 @@ import java.util.concurrent.Executors;
 public class Quizz {
     private ServerSocket serverSocket;
     private ExecutorService service;
-    private final List<ClientConnectionHandler> clients;
+    private final List<ClientConnectionHandler> players;
     private Path fileQuestions;
-    private Question question;
+    private List<Question> questions = new LinkedList<>();
     private boolean hasResponded = true;
-    private List<String> questionLines = new ArrayList<>();
 
     public Quizz() {
-        clients = new CopyOnWriteArrayList<>();
+        players = new CopyOnWriteArrayList<>();
     }
 
     public void start(int port) throws IOException {
@@ -32,8 +30,6 @@ public class Quizz {
         service = Executors.newCachedThreadPool();
         int numberOfConnections = 0;
         System.out.printf(Messages.SERVER_STARTED, port);
-        sendQuestion();
-
 
         while (true) {
             acceptConnection(numberOfConnections);
@@ -41,32 +37,33 @@ public class Quizz {
 
         }
     }
-
-    protected void sendQuestion() {
-        Path fileQuestions = Paths.get("resources/questions.txt");
-        question = new Question();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileQuestions.toFile()))) {
-            //String line = br.readLine();
-            int lineNumber= (int) br.lines().count();
-            for ( int i = 0; i < lineNumber; i++) {
-                String line = Files.readAllLines(fileQuestions).get(i);
-                String[] parts = line.split("::");
-                // System.out.println(parts[0]);
-                question.sentence = parts[0];
-                question.rightAnswer = parts[1];
-                question.multipleChoices = parts[2].split(";");
-                question.difficulty = parts[3];
-                question.category = parts[4];
-                hasResponded = false;
-                //line = br.readLine();
+    protected void QuestionsConstructor() {
+            Path fileQuestions = Paths.get("resources/questions.txt");
+            try (BufferedReader br = new BufferedReader(new FileReader(fileQuestions.toFile()))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split("::");
+                    Question question = new Question();
+                    question.sentence = parts[0];
+                    question.rightAnswer = parts[1];
+                    question.multipleChoices = parts[2].split(";");
+                    question.difficulty = parts[3];
+                    question.category = parts[4];
+                    questions.add(question);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+    protected synchronized void sendQuestion(ClientConnectionHandler clientConnectionHandler){
+        QuestionsConstructor();
+        for (Question singleQuestion:questions) {
+            broadcast("Quizz",singleQuestion.toString());
+            playerResponse(clientConnectionHandler);
+        }
 
+    }
 
 
     public void acceptConnection(int numberOfConnections) throws IOException {
@@ -83,12 +80,12 @@ public class Quizz {
             clients.add(clientConnectionHandler);
         }*/
 
-        clients.add(clientConnectionHandler);
+        players.add(clientConnectionHandler);
         clientConnectionHandler.send(Messages.WELCOME.formatted(clientConnectionHandler.getName()));
         clientConnectionHandler.send(Messages.COMMANDS_LIST);
         broadcast(clientConnectionHandler.getName(), Messages.CLIENT_ENTERED_CHAT);
     }
-    private void playerResponse(ClientConnectionHandler clientConnectionHandler){
+    private synchronized void playerResponse(ClientConnectionHandler clientConnectionHandler){
         while(clientConnectionHandler.playerAnswer == "") {
             try {
                 clientConnectionHandler.playerAnswer.wait();
@@ -98,47 +95,47 @@ public class Quizz {
 
         }
 
-
         if(isAnswerRight(clientConnectionHandler.playerAnswer)){
-            clients.stream()
+            players.stream()
                     .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.CORRECT_ANSWER ));
             broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
         }else {
-        clients.stream()
+        players.stream()
                 .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.WRONG_ANSWER));
         broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
         }
         hasResponded=true;
+        notify();
     }
 
-    public void broadcast(String name, String playerAnswer) {
-        clients.stream()
+    public void broadcast(String name, String message) {
+        players.stream()
                 .filter(handler -> !handler.getName().equals(name))
-                .forEach(handler -> handler.send(name + ": " + question));
+                .forEach(handler -> handler.send(name + ": " + message));
 
 
 
     }
     public void broadcast2(String name, String message) {
-        clients.stream()
+        players.stream()
                 .filter(handler -> !handler.getName().equals(name))
-                .forEach(handler -> handler.send(name + ": " + question));
+                .forEach(handler -> handler.send(name + ": " + questions));
     }
 
 
     public String listClients() {
         StringBuffer buffer = new StringBuffer();
-        clients.forEach(client -> buffer.append(client.getName()).append("\n"));
+        players.forEach(client -> buffer.append(client.getName()).append("\n"));
         return buffer.toString();
     }
 
     public void removeClient(ClientConnectionHandler clientConnectionHandler) {
-        clients.remove(clientConnectionHandler);
+        players.remove(clientConnectionHandler);
 
     }
 
     public Optional<ClientConnectionHandler> getClientByName(String name) {
-        return clients.stream()
+        return players.stream()
                 .filter(clientConnectionHandler -> clientConnectionHandler.getName().equalsIgnoreCase(name))
                 .findFirst();
     }
@@ -160,6 +157,7 @@ public class Quizz {
         @Override
         public void run() {
             addClient(this);
+            sendQuestion(this);
             try {
                 // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 Scanner in = new Scanner(clientSocket.getInputStream());
@@ -237,7 +235,7 @@ public class Quizz {
         }
     }
     public boolean isAnswerRight(String playerAnswer){
-        if(playerAnswer.toLowerCase().equals(question.rightAnswer)){
+        if(playerAnswer.toLowerCase().equals(questions.get(0).rightAnswer)){
             //playerAnswer.notifyAll();
             return true;
         }

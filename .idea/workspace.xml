@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="split of question">
+    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="resolution of correct answer">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/questions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/questions.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Quizz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quizz.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,16 +50,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/tiagosilva/Desktop/MindSwap_2023/ClassesExercises/AdvancedJava/ProjectOne/QuizzGame/QuizzGame/src&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/tiagosilva/Desktop/MindSwap_2023/ClassesExercises/AdvancedJava/ProjectOne/QuizzGame/QuizzGame/src",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
@@ -135,37 +137,40 @@
       <option name="project" value="LOCAL" />
       <updated>1676545690496</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="resolution of correct answer">
+      <created>1676561080909</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676561080909</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First Commit with all empty classes and resource folder with questions.txt file." />
     <MESSAGE value="Implement the communication Quizz &lt;..&gt; Player" />
     <MESSAGE value="split of question" />
-    <option name="LAST_COMMIT_MESSAGE" value="split of question" />
+    <MESSAGE value="resolution of correct answer" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolution of correct answer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="8" />
+          <line>88</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="9" />
+          <line>90</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="11" />
+          <line>97</line>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
