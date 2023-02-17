@@ -64,6 +64,7 @@ public class Quizz {
     }
     protected void nextQuestion(ClientConnectionHandler clientConnectionHandler){
         sendQuestion(clientConnectionHandler);
+        showPlayerScore(clientConnectionHandler);
     }
 
     public void acceptConnection(int numberOfConnections) throws IOException {
@@ -75,7 +76,7 @@ public class Quizz {
         //addClient(clientConnectionHandler);
     }
 
-    private synchronized void addPlayer(ClientConnectionHandler clientConnectionHandler) {
+    private void addPlayer(ClientConnectionHandler clientConnectionHandler) {
         /*synchronized (clients) {
             clients.add(clientConnectionHandler);
         }*/
@@ -86,32 +87,39 @@ public class Quizz {
         broadcast(clientConnectionHandler.getName(), Messages.CLIENT_ENTERED_CHAT);
     }
 
-    //private boolean hasAWinner(ClientConnectionHandler clientConnectionHandler){
-    //  if(clientConnectionHandler)
-    //}
-    private synchronized void playerResponse(ClientConnectionHandler clientConnectionHandler) {
-        while (clientConnectionHandler.playerAnswer == "") {
-            try {
-                clientConnectionHandler.playerAnswer.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-        /*if(isAnswerRight(clientConnectionHandler.playerAnswer)){
+    private void checkAnswer(String playerAnswer, ClientConnectionHandler clientConnectionHandler) {
+        if(playerAnswer.toLowerCase().equals(questions.element().rightAnswer)) {
             players.stream()
-                    .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.CORRECT_ANSWER ));
-            broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
-        }else {
-        players.stream()
-                .forEach(handler -> handler.send(clientConnectionHandler.getName() + ": " + Messages.WRONG_ANSWER));
-        broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
+                    .forEach(handler -> handler.send(Messages.CORRECT_ANSWER));
+            calculateAndSetScore(clientConnectionHandler);
+            questions.remove();
+            //nextQuestion(clientConnectionHandler);
+        } else {
+            players.stream()
+                    .forEach(handler -> handler.send(Messages.WRONG_ANSWER));
+            questions.remove();
+            //nextQuestion(clientConnectionHandler);
         }
-        hasResponded=true;
-        notify();
+    }
 
-         */
+    private void calculateAndSetScore(ClientConnectionHandler clientConnectionHandler){
+        if(questions.element().difficulty.equals("easy")){
+            clientConnectionHandler.setScore(clientConnectionHandler.getScore() + 10);
+        }
+        if(questions.element().difficulty.equals("medium")){
+            clientConnectionHandler.setScore(clientConnectionHandler.getScore() + 30);
+        }
+        if(questions.element().difficulty.equals("hard")){
+            clientConnectionHandler.setScore(clientConnectionHandler.getScore() + 50);
+        }
+
+
+
+
+    }
+
+    private void showPlayerScore(ClientConnectionHandler clientConnectionHandler){
+        System.out.println(clientConnectionHandler.getName() + " score: " + clientConnectionHandler.getScore());
     }
 
     public void broadcast(String name, String message) {
@@ -144,6 +152,7 @@ public class Quizz {
         private BufferedWriter out;
         private String message;
         private String playerAnswer;
+        private int score;
 
         public ClientConnectionHandler(Socket clientSocket, String name) throws IOException {
             this.clientSocket = clientSocket;
@@ -169,6 +178,8 @@ public class Quizz {
                     }
                     if (isAnAnswer(message)) {
                         checkAnswer(message,this);
+                        nextQuestion(this);
+                        showPlayerScore(this);
                         continue;
                     }
                     if (message.equals("")) {
@@ -185,11 +196,9 @@ public class Quizz {
         private boolean isCommand(String message) {
         return message.startsWith("/");
     }
-
         private boolean isAnAnswer(String message) {
         return message.matches("(?i)[abcd]");
     }
-
         private void dealWithCommand(String message) throws IOException {
         String description = message.split(" ")[0];
         Command command = Command.getCommandFromDescription(description);
@@ -203,7 +212,6 @@ public class Quizz {
 
         command.getHandler().execute(Quizz.this, this);
     }
-
         public void send(String message) {
         try {
             out.write(message);
@@ -214,7 +222,6 @@ public class Quizz {
             e.printStackTrace();
         }
     }
-
         public void close() {
         try {
             clientSocket.close();
@@ -222,32 +229,20 @@ public class Quizz {
             e.printStackTrace();
         }
     }
-
         public String getName() {
         return name;
     }
-
         public void setName(String name) {
         this.name = name;
     }
-
+        public int getScore() {
+            return score;
+        }
+        public void setScore(int score) {
+            this.score = score;
+        }
         public String getMessage() {
         return message;
-    }
-
-        public void checkAnswer(String playerAnswer, ClientConnectionHandler clientConnectionHandler) {
-        if (playerAnswer.toLowerCase().equals(questions.element().rightAnswer)) {
-            players.stream()
-                    .forEach(handler -> handler.send(Messages.CORRECT_ANSWER));
-            questions.remove();
-            nextQuestion(clientConnectionHandler);
-        } else {
-            players.stream()
-                    .forEach(handler -> handler.send(Messages.WRONG_ANSWER));
-            questions.remove();
-            nextQuestion(clientConnectionHandler);
-            //broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
-        }
     }
 
     }

@@ -4,16 +4,7 @@ import java.io.*;
 import java.net.Socket;
 
 public class Player {
-    private String userName;
-    private int score;
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 
     public static void main(String[] args) {
         Player player = new Player();
