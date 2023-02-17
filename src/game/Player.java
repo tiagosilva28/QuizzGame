@@ -9,7 +9,7 @@ public class Player {
     public static void main(String[] args) {
         Player player = new Player();
         try {
-            player.start("localhost",8089);
+            player.start("localhost",8092);
         }catch (IOException e){
             System.out.println("Connection closed");
         }

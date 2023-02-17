@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Set score and check winner">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="resolution of correct answer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/CommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/CommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/HelpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/HelpHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/ListHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/ListHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/NameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/NameHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/QuitHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/QuitHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/ShoutHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/ShoutHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/WhisperHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/WhisperHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Quizz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quizz.java" afterDir="false" />
@@ -183,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676630514066</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="resolution of correct answer">
+      <created>1676653107526</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1676653107526</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -216,44 +215,45 @@
     <MESSAGE value="Second commit sending questions" />
     <MESSAGE value="Sending each question after answer - working" />
     <MESSAGE value="Set score and show score for each player" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set score and show score for each player" />
+    <MESSAGE value="resolution of correct answer" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolution of correct answer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>114</line>
+          <line>117</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>111</line>
+          <line>114</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>110</line>
+          <line>113</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>101</line>
+          <line>104</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>128</line>
+          <line>131</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>131</line>
+          <line>134</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>141</line>
+          <line>144</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
