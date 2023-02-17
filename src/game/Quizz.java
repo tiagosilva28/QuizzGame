@@ -21,6 +21,7 @@ public class Quizz {
     private Queue<Question> questions = new LinkedList<>();
     private boolean hasResponded = true;
     private int numberOfOnlinePlayers = 0;
+    private final Object lock = new Object();
 
 
     //paracommit teste
@@ -40,7 +41,12 @@ public class Quizz {
         while (true) {
             acceptConnection(numberOfConnections);
             ++numberOfConnections;
-            ++numberOfOnlinePlayers;
+
+            synchronized (lock) {
+                ++numberOfOnlinePlayers;
+                lock.notifyAll();
+            }
+
         }
     }
 
@@ -66,11 +72,17 @@ public class Quizz {
     }
 
     protected void sendQuestion(PlayerController playerController) {
-        /*try {
-            this.wait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }*/
+
+        synchronized (lock) {
+            while (numberOfOnlinePlayers < 2) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         sendToMySelf(playerController.getUserName(), playerController.playerQuestions.element().toString());
     }
     protected void nextQuestion(PlayerController playerController){
