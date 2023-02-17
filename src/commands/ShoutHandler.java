@@ -7,6 +7,6 @@ public class ShoutHandler implements CommandHandler {
     public void execute(Quizz quizz, Quizz.ClientConnectionHandler clientConnectionHandler) {
         String message = clientConnectionHandler.getMessage();
         String messageToSend = message.substring(6);
-        quizz.broadcast(clientConnectionHandler.getName(), messageToSend.toUpperCase());
+        quizz.sendToAll(clientConnectionHandler.getUserName(), messageToSend.toUpperCase());
     }
 }

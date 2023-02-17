@@ -62,7 +62,7 @@ public class Quizz {
     }
 
     protected void sendQuestion(ClientConnectionHandler clientConnectionHandler) {
-        broadcast("Quiz question: ", questions.element().toString());
+        sendToMySelf(clientConnectionHandler.getUserName(), questions.element().toString());
     }
     protected void nextQuestion(ClientConnectionHandler clientConnectionHandler){
         sendQuestion(clientConnectionHandler);
@@ -84,21 +84,18 @@ public class Quizz {
         }*/
 
         players.add(clientConnectionHandler);
-        clientConnectionHandler.send(Messages.WELCOME.formatted(clientConnectionHandler.getName()));
+        clientConnectionHandler.send(Messages.WELCOME.formatted(clientConnectionHandler.getUserName()));
         clientConnectionHandler.send(Messages.COMMANDS_LIST);
-        broadcast(clientConnectionHandler.getName(), Messages.CLIENT_ENTERED_CHAT);
+        sendToAll(clientConnectionHandler.getUserName(), Messages.CLIENT_ENTERED_CHAT);
     }
 
     private void checkAnswer(String playerAnswer, ClientConnectionHandler clientConnectionHandler) {
         if(playerAnswer.toLowerCase().equals(questions.element().rightAnswer)) {
             calculateAndSetScore(clientConnectionHandler);
-            players.stream()
-                    .forEach(handler -> handler.send(Messages.CORRECT_ANSWER));
-            sendToMySelf("Your score is: ", String.valueOf(clientConnectionHandler.getScore()));
+            sendToMySelf(clientConnectionHandler.getUserName(), Messages.CORRECT_ANSWER);
+            sendToMySelf(clientConnectionHandler.getUserName(), String.valueOf(clientConnectionHandler.getScore()));
         } else {
-            players.stream()
-                    .forEach(handler -> handler.send(Messages.WRONG_ANSWER));
-
+            sendToMySelf(clientConnectionHandler.getUserName(), Messages.WRONG_ANSWER);
         }
         questions.remove();
         clientConnectionHandler.round++;
@@ -119,34 +116,40 @@ public class Quizz {
 
     }
 
-    private void showPlayerScore(ClientConnectionHandler clientConnectionHandler){
-        System.out.println(clientConnectionHandler.getName() + " score: " + clientConnectionHandler.getScore());
+    private String showPlayerScore(ClientConnectionHandler clientConnectionHandler){
+        System.out.println(clientConnectionHandler.getUserName() + " score: " + clientConnectionHandler.getScore());
+        return clientConnectionHandler.getUserName() + " score: " + clientConnectionHandler.getScore();
     }
-    private void checkWinner(){
+    private String checkWinner(ClientConnectionHandler clientConnectionHandler){
+        String theWinner = null;
+
         long nrPlayerThatFinished = players.stream()
-                .filter(clientConnectionHandler -> clientConnectionHandler.round == 10).count();
+                .filter(player -> player.round == 2).count();
         if(nrPlayerThatFinished == numberOfOnlinePlayers){
-            players.stream().sorted()
+          theWinner = String.valueOf(players.stream()
+                            .sorted(Comparator.comparing(player -> player.getScore())).findFirst()
+                            .map(player -> player.getUserName()));
         }
-
+            sendToAll(showPlayerScore(clientConnectionHandler), theWinner);
+            return theWinner;
 
     }
 
-    public void broadcast(String name, String message) {
+    public void sendToAll(String name, String message) {
         players.stream()
-                .filter(handler -> !handler.getName().equals(name))
-                .forEach(handler -> handler.send(name + ": " + message));
+               // .filter(handler -> !handler.getName().equals(name))
+                .forEach(player -> player.send(name + ": " + message));
     }
 
     public void sendToMySelf(String name, String message) {
         players.stream()
-                .filter(handler -> handler.getName().equals(name)).
-                forEach(handler -> handler.send(name + ": " + message));
+                .filter(handler -> handler.getUserName().equals(name))
+                .forEach(handler -> handler.send(name + ": " + message));
     }
 
     public String listClients() {
         StringBuffer buffer = new StringBuffer();
-        players.forEach(client -> buffer.append(client.getName()).append("\n"));
+        players.forEach(client -> buffer.append(client.getUserName()).append("\n"));
         return buffer.toString();
     }
 
@@ -157,13 +160,13 @@ public class Quizz {
 
     public Optional<ClientConnectionHandler> getClientByName(String name) {
         return players.stream()
-                .filter(clientConnectionHandler -> clientConnectionHandler.getName().equalsIgnoreCase(name))
+                .filter(clientConnectionHandler -> clientConnectionHandler.getUserName().equalsIgnoreCase(name))
                 .findFirst();
     }
 
     public class ClientConnectionHandler implements Runnable {
 
-        private String name;
+        private String userName;
         private Socket clientSocket;
         private BufferedWriter out;
         private String message;
@@ -171,9 +174,9 @@ public class Quizz {
         private int score;
         private int round;
 
-        public ClientConnectionHandler(Socket clientSocket, String name) throws IOException {
+        public ClientConnectionHandler(Socket clientSocket, String userName) throws IOException {
             this.clientSocket = clientSocket;
-            this.name = name;
+            this.userName = userName;
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         }
 
@@ -197,12 +200,13 @@ public class Quizz {
                         checkAnswer(message,this);
                         nextQuestion(this);
                         showPlayerScore(this);
+                       // System.out.println(checkWinner(this));
                         continue;
                     }
                     if (message.equals("")) {
                         continue;
                     }
-                    broadcast(name, message);
+                    sendToAll(userName, message);
                 }
             } catch (IOException e) {
                 System.err.println(Messages.CLIENT_ERROR + e.getMessage());
@@ -247,11 +251,11 @@ public class Quizz {
             e.printStackTrace();
         }
     }
-        public String getName() {
-        return name;
+        public String getUserName() {
+        return userName;
     }
-        public void setName(String name) {
-        this.name = name;
+        public void setUserName(String userName) {
+        this.userName = userName;
     }
         public int getScore() {
             return score;

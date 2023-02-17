@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Set score and show score for each player">
-      <change afterPath="$PROJECT_DIR$/src/game/DifficultyLevels.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/NameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/NameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/QuitHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/QuitHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/ShoutHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/ShoutHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/WhisperHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/WhisperHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Quizz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quizz.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +42,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="VersaoAntiga" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -67,16 +71,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/tiagosilva/Desktop/MindSwap_2023/ClassesExercises/AdvancedJava/ProjectOne/QuizzGame/QuizzGame/src&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/tiagosilva/Desktop/MindSwap_2023/ClassesExercises/AdvancedJava/ProjectOne/QuizzGame/QuizzGame/src",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
@@ -85,7 +89,7 @@
       <recent name="messages" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Player">
+  <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="game.App" />
       <module name="QuizzGame" />
@@ -208,6 +212,21 @@
     <MESSAGE value="Sending each question after answer - working" />
     <MESSAGE value="Set score and show score for each player" />
     <option name="LAST_COMMIT_MESSAGE" value="Set score and show score for each player" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
+          <line>91</line>
+          <properties class="game.Quizz" method="checkAnswer">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/QuizzGame$Player.ic" NAME="Player Coverage Results" MODIFIED="1676631405458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

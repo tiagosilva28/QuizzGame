@@ -24,6 +24,6 @@ public class WhisperHandler implements CommandHandler {
         }
 
         String messageToSend = message.substring(message.indexOf(" ") + 1).substring(message.indexOf(" ") + 1);
-        receiverClient.get().send(clientConnectionHandler.getName() + Messages.WHISPER + ": " + messageToSend);
+        receiverClient.get().send(clientConnectionHandler.getUserName() + Messages.WHISPER + ": " + messageToSend);
     }
 }
