@@ -22,6 +22,8 @@ public class Quizz {
     private boolean hasResponded = true;
     private int numberOfOnlinePlayers = 0;
 
+    //paracommit teste
+
     public Quizz() {
         players = new CopyOnWriteArrayList<>();
     }
