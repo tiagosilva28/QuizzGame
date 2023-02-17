@@ -19,6 +19,7 @@ public class Quizz {
     private final List<ClientConnectionHandler> players;
     private Queue<Question> questions = new LinkedList<>();
     private boolean hasResponded = true;
+    private int numberOfOnlinePlayers = 0;
 
     public Quizz() {
         players = new CopyOnWriteArrayList<>();
@@ -35,6 +36,7 @@ public class Quizz {
         while (true) {
             acceptConnection(numberOfConnections);
             ++numberOfConnections;
+            ++numberOfOnlinePlayers;
         }
     }
 
@@ -89,28 +91,27 @@ public class Quizz {
 
     private void checkAnswer(String playerAnswer, ClientConnectionHandler clientConnectionHandler) {
         if(playerAnswer.toLowerCase().equals(questions.element().rightAnswer)) {
+            calculateAndSetScore(clientConnectionHandler);
             players.stream()
                     .forEach(handler -> handler.send(Messages.CORRECT_ANSWER));
-            calculateAndSetScore(clientConnectionHandler);
-            questions.remove();
-            //nextQuestion(clientConnectionHandler);
+            sendToMySelf("Your score is: ", String.valueOf(clientConnectionHandler.getScore()));
         } else {
             players.stream()
                     .forEach(handler -> handler.send(Messages.WRONG_ANSWER));
-            questions.remove();
-            //nextQuestion(clientConnectionHandler);
+
         }
+        questions.remove();
+        clientConnectionHandler.round++;
     }
 
     private void calculateAndSetScore(ClientConnectionHandler clientConnectionHandler){
-        if(questions.element().difficulty.equals("easy")){
-            clientConnectionHandler.setScore(clientConnectionHandler.getScore() + 10);
-        }
-        if(questions.element().difficulty.equals("medium")){
-            clientConnectionHandler.setScore(clientConnectionHandler.getScore() + 30);
-        }
-        if(questions.element().difficulty.equals("hard")){
-            clientConnectionHandler.setScore(clientConnectionHandler.getScore() + 50);
+        switch (questions.element().difficulty){
+            case "easy":
+                clientConnectionHandler.setScore(clientConnectionHandler.getScore() + DifficultyLevels.EASY.getScore());
+            case "medium":
+                clientConnectionHandler.setScore(clientConnectionHandler.getScore() + DifficultyLevels.MEDIUM.getScore());
+            case "hard":
+                clientConnectionHandler.setScore(clientConnectionHandler.getScore() + DifficultyLevels.HARD.getScore());
         }
 
 
@@ -121,11 +122,26 @@ public class Quizz {
     private void showPlayerScore(ClientConnectionHandler clientConnectionHandler){
         System.out.println(clientConnectionHandler.getName() + " score: " + clientConnectionHandler.getScore());
     }
+    private void checkWinner(){
+        long nrPlayerThatFinished = players.stream()
+                .filter(clientConnectionHandler -> clientConnectionHandler.round == 10).count();
+        if(nrPlayerThatFinished == numberOfOnlinePlayers){
+            players.stream().sorted()
+        }
+
+
+    }
 
     public void broadcast(String name, String message) {
         players.stream()
                 .filter(handler -> !handler.getName().equals(name))
                 .forEach(handler -> handler.send(name + ": " + message));
+    }
+
+    public void sendToMySelf(String name, String message) {
+        players.stream()
+                .filter(handler -> handler.getName().equals(name)).
+                forEach(handler -> handler.send(name + ": " + message));
     }
 
     public String listClients() {
@@ -153,6 +169,7 @@ public class Quizz {
         private String message;
         private String playerAnswer;
         private int score;
+        private int round;
 
         public ClientConnectionHandler(Socket clientSocket, String name) throws IOException {
             this.clientSocket = clientSocket;
@@ -225,6 +242,7 @@ public class Quizz {
         public void close() {
         try {
             clientSocket.close();
+            --numberOfOnlinePlayers;
         } catch (IOException e) {
             e.printStackTrace();
         }
