@@ -152,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676545690496</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Second commit sending questions">
+      <created>1676585130623</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676585130623</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -182,17 +189,7 @@
     <MESSAGE value="First Commit with all empty classes and resource folder with questions.txt file." />
     <MESSAGE value="Implement the communication Quizz &lt;..&gt; Player" />
     <MESSAGE value="split of question" />
-    <option name="LAST_COMMIT_MESSAGE" value="split of question" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>46</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Second commit sending questions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Second commit sending questions" />
   </component>
 </project>

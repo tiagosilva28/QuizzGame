@@ -41,7 +41,6 @@ public class Player {
         private BufferedWriter out;
         private Socket socket;
         private BufferedReader in;
-        private String playerAnswer;
 
         public KeyboardHandler(BufferedWriter out, Socket socket) {
             this.out = out;
@@ -64,9 +63,7 @@ public class Player {
                         socket.close();
                         System.exit(0);
                     }
-                    if(line.equals("(?i)[abcd]")){
-                        this.playerAnswer = line;
-                    }
+
                 } catch (IOException e) {
                     System.out.println("Something went wrong with the server. Connection closing...");
                     try {
@@ -79,9 +76,6 @@ public class Player {
         }
     }
 
-    protected void selectAnswer(){
-
-    }
 
 
 }

@@ -18,7 +18,6 @@ public class Quizz {
     private ExecutorService service;
     private final List<ClientConnectionHandler> players;
     private Queue<Question> questions = new LinkedList<>();
-    private int questionIndex;
     private boolean hasResponded = true;
 
     public Quizz() {
@@ -28,6 +27,7 @@ public class Quizz {
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         service = Executors.newCachedThreadPool();
+        splitAndCreateQuestionsQueue();
         int numberOfConnections = 0;
         System.out.printf(Messages.SERVER_STARTED, port);
 
@@ -36,11 +36,9 @@ public class Quizz {
             acceptConnection(numberOfConnections);
             ++numberOfConnections;
         }
-
-
     }
 
-    protected void splitAndCreateQuestionsQueue() {
+    protected synchronized void splitAndCreateQuestionsQueue() {
         Path fileQuestionsPath = Paths.get("resources/questions.txt");
         try (BufferedReader br = new BufferedReader(new FileReader(fileQuestionsPath.toFile()))) {
 
@@ -59,15 +57,10 @@ public class Quizz {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     protected void sendQuestion(ClientConnectionHandler clientConnectionHandler) {
-        //splitAndCreateQuestionsQueue();
-        //clientConnectionHandler.send(questions.element().toString());
         broadcast("Quiz question: ", questions.element().toString());
-        //System.out.println(questions.element().toString());
-        //questions.remove();
     }
     protected void nextQuestion(ClientConnectionHandler clientConnectionHandler){
         sendQuestion(clientConnectionHandler);
@@ -82,7 +75,7 @@ public class Quizz {
         //addClient(clientConnectionHandler);
     }
 
-    private void addPlayer(ClientConnectionHandler clientConnectionHandler) {
+    private synchronized void addPlayer(ClientConnectionHandler clientConnectionHandler) {
         /*synchronized (clients) {
             clients.add(clientConnectionHandler);
         }*/
@@ -162,10 +155,9 @@ public class Quizz {
         public void run() {
 
             addPlayer(this);
-            splitAndCreateQuestionsQueue();
-            sendQuestion(this);
 
             try {
+                sendQuestion(this);
                 // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 Scanner in = new Scanner(clientSocket.getInputStream());
                 while (in.hasNext()) {
@@ -182,16 +174,12 @@ public class Quizz {
                     if (message.equals("")) {
                         continue;
                     }
-
                     broadcast(name, message);
                 }
             } catch (IOException e) {
                 System.err.println(Messages.CLIENT_ERROR + e.getMessage());
             }
         }
-            /*finally {
-                removeClient(this);
-            }*/
 
 
         private boolean isCommand(String message) {
@@ -251,10 +239,12 @@ public class Quizz {
         if (playerAnswer.toLowerCase().equals(questions.element().rightAnswer)) {
             players.stream()
                     .forEach(handler -> handler.send(Messages.CORRECT_ANSWER));
+            questions.remove();
             nextQuestion(clientConnectionHandler);
         } else {
             players.stream()
                     .forEach(handler -> handler.send(Messages.WRONG_ANSWER));
+            questions.remove();
             nextQuestion(clientConnectionHandler);
             //broadcast(clientConnectionHandler.getName(), clientConnectionHandler.playerAnswer);
         }
