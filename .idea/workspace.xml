@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Set score and show score for each player">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Set score and check winner">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/NameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/NameHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/QuitHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/QuitHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/ShoutHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/ShoutHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/WhisperHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/WhisperHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Quizz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quizz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/messages/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/messages/Messages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,16 +67,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/tiagosilva/Desktop/MindSwap_2023/ClassesExercises/AdvancedJava/ProjectOne/QuizzGame/QuizzGame/src",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tiagosilva/Desktop/MindSwap_2023/ClassesExercises/AdvancedJava/ProjectOne/QuizzGame/QuizzGame/src&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
@@ -95,7 +91,7 @@
       <module name="QuizzGame" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="game.*" />
+          <option name="PATTERN" value="game.Quizz" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -108,7 +104,7 @@
       <module name="QuizzGame" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="game.*" />
+          <option name="PATTERN" value="game.Quizz" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -122,8 +118,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Player" />
         <item itemvalue="Application.App" />
+        <item itemvalue="Application.Player" />
       </list>
     </recent_temporary>
   </component>
@@ -219,7 +215,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
           <line>91</line>
-          <properties class="game.Quizz" method="checkAnswer">
+          <properties class="game.Quiz" method="checkAnswer">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>

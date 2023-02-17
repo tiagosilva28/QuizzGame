@@ -62,7 +62,7 @@ public class Quizz {
     }
 
     protected void sendQuestion(ClientConnectionHandler clientConnectionHandler) {
-        sendToMySelf(clientConnectionHandler.getUserName(), questions.element().toString());
+        sendToMySelf(clientConnectionHandler.getUserName(), clientConnectionHandler.playerQuestions.element().toString());
     }
     protected void nextQuestion(ClientConnectionHandler clientConnectionHandler){
         sendQuestion(clientConnectionHandler);
@@ -90,19 +90,19 @@ public class Quizz {
     }
 
     private void checkAnswer(String playerAnswer, ClientConnectionHandler clientConnectionHandler) {
-        if(playerAnswer.toLowerCase().equals(questions.element().rightAnswer)) {
+        if(playerAnswer.toLowerCase().equals(clientConnectionHandler.playerQuestions.element().rightAnswer)) {
             calculateAndSetScore(clientConnectionHandler);
             sendToMySelf(clientConnectionHandler.getUserName(), Messages.CORRECT_ANSWER);
             sendToMySelf(clientConnectionHandler.getUserName(), String.valueOf(clientConnectionHandler.getScore()));
         } else {
             sendToMySelf(clientConnectionHandler.getUserName(), Messages.WRONG_ANSWER);
         }
-        questions.remove();
+        clientConnectionHandler.playerQuestions.remove();
         clientConnectionHandler.round++;
     }
 
     private void calculateAndSetScore(ClientConnectionHandler clientConnectionHandler){
-        switch (questions.element().difficulty){
+        switch (clientConnectionHandler.playerQuestions.element().difficulty){
             case "easy":
                 clientConnectionHandler.setScore(clientConnectionHandler.getScore() + DifficultyLevels.EASY.getScore());
             case "medium":
@@ -110,10 +110,6 @@ public class Quizz {
             case "hard":
                 clientConnectionHandler.setScore(clientConnectionHandler.getScore() + DifficultyLevels.HARD.getScore());
         }
-
-
-
-
     }
 
     private String showPlayerScore(ClientConnectionHandler clientConnectionHandler){
@@ -173,44 +169,48 @@ public class Quizz {
         private String playerAnswer;
         private int score;
         private int round;
-
-        public ClientConnectionHandler(Socket clientSocket, String userName) throws IOException {
+        private Queue<Question> playerQuestions = questions;
+        private ClientConnectionHandler(Socket clientSocket, String userName) throws IOException {
             this.clientSocket = clientSocket;
             this.userName = userName;
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         }
 
+
         @Override
         public void run() {
 
+
             addPlayer(this);
 
-            try {
-                sendQuestion(this);
-                // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                Scanner in = new Scanner(clientSocket.getInputStream());
-                while (in.hasNext()) {
+                try {
+                        sendQuestion(this);
+                        // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                        Scanner in = new Scanner(clientSocket.getInputStream());
+                        while (in.hasNext()) {
 
-                    message = in.nextLine();
-                    if (isCommand(message)) {
-                        dealWithCommand(message);
-                        continue;
+                            message = in.nextLine();
+                            if (isCommand(message)) {
+                                dealWithCommand(message);
+                                continue;
+                            }
+                            if (isAnAnswer(message)) {
+                                checkAnswer(message, this);
+                                nextQuestion(this);
+                                showPlayerScore(this);
+                                // System.out.println(checkWinner(this));
+                                continue;
+                            }
+                            if (message.equals("")) {
+                                continue;
+                            }
+                            sendToAll(userName, message);
+                        }
+
+                    } catch(IOException e){
+                        System.err.println(Messages.CLIENT_ERROR + e.getMessage());
                     }
-                    if (isAnAnswer(message)) {
-                        checkAnswer(message,this);
-                        nextQuestion(this);
-                        showPlayerScore(this);
-                       // System.out.println(checkWinner(this));
-                        continue;
-                    }
-                    if (message.equals("")) {
-                        continue;
-                    }
-                    sendToAll(userName, message);
-                }
-            } catch (IOException e) {
-                System.err.println(Messages.CLIENT_ERROR + e.getMessage());
-            }
+
         }
 
 
@@ -267,6 +267,9 @@ public class Quizz {
         return message;
     }
 
+        public void setPlayerQuestions(Queue<Question> playerQuestions) {
+            this.playerQuestions = playerQuestions;
+        }
     }
 }
 
