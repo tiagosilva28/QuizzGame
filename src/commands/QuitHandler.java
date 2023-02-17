@@ -6,9 +6,9 @@ import messages.Messages;
 public class QuitHandler implements CommandHandler {
 
     @Override
-    public void execute(Quizz quizz, Quizz.ClientConnectionHandler clientConnectionHandler) {
-        quizz.removeClient(clientConnectionHandler);
-        quizz.sendToAll(clientConnectionHandler.getUserName(), clientConnectionHandler.getUserName() + Messages.CLIENT_DISCONNECTED);
-        clientConnectionHandler.close();
+    public void execute(Quizz quizz, Quizz.PlayerController playerController) {
+        quizz.removeClient(playerController);
+        quizz.sendToAll(playerController.getUserName(), playerController.getUserName() + Messages.CLIENT_DISCONNECTED);
+        playerController.close();
     }
 }

@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Set score and check winner">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/CommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/CommandHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/HelpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/HelpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/ListHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/ListHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/NameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/NameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/QuitHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/QuitHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/ShoutHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/ShoutHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/WhisperHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/WhisperHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Quizz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quizz.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/messages/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/messages/Messages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +94,7 @@
       <recent name="messages" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="Application.Player">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="game.App" />
       <module name="QuizzGame" />
@@ -118,8 +127,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
         <item itemvalue="Application.Player" />
+        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
@@ -212,17 +221,47 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>91</line>
-          <properties class="game.Quiz" method="checkAnswer">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="13" />
+          <line>114</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
+          <line>128</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
+          <line>141</line>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/QuizzGame$Player.ic" NAME="Player Coverage Results" MODIFIED="1676631405458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

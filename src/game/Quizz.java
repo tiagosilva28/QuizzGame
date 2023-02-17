@@ -12,11 +12,12 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class Quizz {
     private ServerSocket serverSocket;
     private ExecutorService service;
-    private final List<ClientConnectionHandler> players;
+    private final List<PlayerController> players;
     private Queue<Question> questions = new LinkedList<>();
     private boolean hasResponded = true;
     private int numberOfOnlinePlayers = 0;
@@ -40,7 +41,7 @@ public class Quizz {
         }
     }
 
-    protected synchronized void splitAndCreateQuestionsQueue() {
+    protected void splitAndCreateQuestionsQueue() {
         Path fileQuestionsPath = Paths.get("resources/questions.txt");
         try (BufferedReader br = new BufferedReader(new FileReader(fileQuestionsPath.toFile()))) {
 
@@ -61,73 +62,90 @@ public class Quizz {
         }
     }
 
-    protected void sendQuestion(ClientConnectionHandler clientConnectionHandler) {
-        sendToMySelf(clientConnectionHandler.getUserName(), clientConnectionHandler.playerQuestions.element().toString());
+    protected void sendQuestion(PlayerController playerController) {
+        /*try {
+            this.wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }*/
+        sendToMySelf(playerController.getUserName(), playerController.playerQuestions.element().toString());
     }
-    protected void nextQuestion(ClientConnectionHandler clientConnectionHandler){
-        sendQuestion(clientConnectionHandler);
-        showPlayerScore(clientConnectionHandler);
+    protected void nextQuestion(PlayerController playerController){
+        sendQuestion(playerController);
+        showPlayerScore(playerController);
     }
 
     public void acceptConnection(int numberOfConnections) throws IOException {
-        Socket clientSocket = serverSocket.accept();
-        ClientConnectionHandler clientConnectionHandler =
-                new ClientConnectionHandler(clientSocket,
+        Socket playerSocket = serverSocket.accept();
+        PlayerController playerController =
+                new PlayerController(playerSocket,
                         Messages.DEFAULT_NAME + numberOfConnections);
-        service.submit(clientConnectionHandler);
+        service.submit(playerController);
         //addClient(clientConnectionHandler);
     }
 
-    private void addPlayer(ClientConnectionHandler clientConnectionHandler) {
+    private void addPlayer(PlayerController playerController) {
         /*synchronized (clients) {
             clients.add(clientConnectionHandler);
         }*/
 
-        players.add(clientConnectionHandler);
-        clientConnectionHandler.send(Messages.WELCOME.formatted(clientConnectionHandler.getUserName()));
-        clientConnectionHandler.send(Messages.COMMANDS_LIST);
-        sendToAll(clientConnectionHandler.getUserName(), Messages.CLIENT_ENTERED_CHAT);
+        players.add(playerController);
+        playerController.send(Messages.WELCOME.formatted(playerController.getUserName()));
+        playerController.send(Messages.COMMANDS_LIST);
+        sendToAll(playerController.getUserName(), Messages.CLIENT_ENTERED_CHAT);
     }
 
-    private void checkAnswer(String playerAnswer, ClientConnectionHandler clientConnectionHandler) {
-        if(playerAnswer.toLowerCase().equals(clientConnectionHandler.playerQuestions.element().rightAnswer)) {
-            calculateAndSetScore(clientConnectionHandler);
-            sendToMySelf(clientConnectionHandler.getUserName(), Messages.CORRECT_ANSWER);
-            sendToMySelf(clientConnectionHandler.getUserName(), String.valueOf(clientConnectionHandler.getScore()));
+    private void checkAnswer(String playerAnswer, PlayerController playerController) {
+        if(playerAnswer.toLowerCase().equals(playerController.playerQuestions.element().rightAnswer)) {
+            calculateAndSetScore(playerController);
+            sendToMySelf(playerController.getUserName(), Messages.CORRECT_ANSWER);
+            sendToMySelf(playerController.getUserName(), String.valueOf(playerController.getScore()));
         } else {
-            sendToMySelf(clientConnectionHandler.getUserName(), Messages.WRONG_ANSWER);
+            sendToMySelf(playerController.getUserName(), Messages.WRONG_ANSWER);
         }
-        clientConnectionHandler.playerQuestions.remove();
-        clientConnectionHandler.round++;
+        playerController.playerQuestions.remove();
+        playerController.round++;
     }
 
-    private void calculateAndSetScore(ClientConnectionHandler clientConnectionHandler){
-        switch (clientConnectionHandler.playerQuestions.element().difficulty){
+    private void calculateAndSetScore(PlayerController playerController){
+        switch (playerController.playerQuestions.element().difficulty){
             case "easy":
-                clientConnectionHandler.setScore(clientConnectionHandler.getScore() + DifficultyLevels.EASY.getScore());
+                playerController.setScore(playerController.getScore() + DifficultyLevels.EASY.getScore());
+                break;
             case "medium":
-                clientConnectionHandler.setScore(clientConnectionHandler.getScore() + DifficultyLevels.MEDIUM.getScore());
+                playerController.setScore(playerController.getScore() + DifficultyLevels.MEDIUM.getScore());
+                break;
             case "hard":
-                clientConnectionHandler.setScore(clientConnectionHandler.getScore() + DifficultyLevels.HARD.getScore());
+                playerController.setScore(playerController.getScore() + DifficultyLevels.HARD.getScore());
+                break;
         }
     }
 
-    private String showPlayerScore(ClientConnectionHandler clientConnectionHandler){
-        System.out.println(clientConnectionHandler.getUserName() + " score: " + clientConnectionHandler.getScore());
-        return clientConnectionHandler.getUserName() + " score: " + clientConnectionHandler.getScore();
+    private void showPlayerScore(PlayerController playerController){
+        System.out.println(playerController.getUserName() + " score: " + playerController.getScore());
+
     }
-    private String checkWinner(ClientConnectionHandler clientConnectionHandler){
+    private void checkWinner(PlayerController playerController){
         String theWinner = null;
 
-        long nrPlayerThatFinished = players.stream()
-                .filter(player -> player.round == 2).count();
+
+        int nrPlayerThatFinished = players.stream()
+                .filter(player -> player.round == 2).toList().size();
+
+        System.out.println(playerController.playerQuestions.size());
+
+        System.out.println("ROUND " + playerController.round);
+        System.out.println("PLAYERS FINISH " + nrPlayerThatFinished);
+        System.out.println("ONLINE PLAYERS " + numberOfOnlinePlayers);
+
+
         if(nrPlayerThatFinished == numberOfOnlinePlayers){
-          theWinner = String.valueOf(players.stream()
-                            .sorted(Comparator.comparing(player -> player.getScore())).findFirst()
-                            .map(player -> player.getUserName()));
+         theWinner = players.stream()
+                  .max(Comparator.comparing(player -> player.getScore()))
+                  .map(player -> "The Winner is: " + player.getUserName() + " with the score: " + player.getScore()).orElse("TIEEEEEE");
+            sendToAll(playerController.getUserName(), theWinner);
         }
-            sendToAll(showPlayerScore(clientConnectionHandler), theWinner);
-            return theWinner;
+        System.out.println("ENTER IN METHOD WINNER");
 
     }
 
@@ -149,31 +167,31 @@ public class Quizz {
         return buffer.toString();
     }
 
-    public void removeClient(ClientConnectionHandler clientConnectionHandler) {
-        players.remove(clientConnectionHandler);
+    public void removeClient(PlayerController playerController) {
+        players.remove(playerController);
 
     }
 
-    public Optional<ClientConnectionHandler> getClientByName(String name) {
+    public Optional<PlayerController> getClientByName(String name) {
         return players.stream()
                 .filter(clientConnectionHandler -> clientConnectionHandler.getUserName().equalsIgnoreCase(name))
                 .findFirst();
     }
 
-    public class ClientConnectionHandler implements Runnable {
+    public class PlayerController implements Runnable {
 
         private String userName;
-        private Socket clientSocket;
+        private Socket playerSocket;
         private BufferedWriter out;
         private String message;
         private String playerAnswer;
-        private int score;
+        private int score = 0;
         private int round;
-        private Queue<Question> playerQuestions = questions;
-        private ClientConnectionHandler(Socket clientSocket, String userName) throws IOException {
-            this.clientSocket = clientSocket;
+        private Queue<Question> playerQuestions = new LinkedList<>(questions);
+        private PlayerController(Socket playerSocket, String userName) throws IOException {
+            this.playerSocket = playerSocket;
             this.userName = userName;
-            this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            this.out = new BufferedWriter(new OutputStreamWriter(playerSocket.getOutputStream()));
         }
 
 
@@ -186,7 +204,7 @@ public class Quizz {
                 try {
                         sendQuestion(this);
                         // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                        Scanner in = new Scanner(clientSocket.getInputStream());
+                        Scanner in = new Scanner(playerSocket.getInputStream());
                         while (in.hasNext()) {
 
                             message = in.nextLine();
@@ -198,7 +216,7 @@ public class Quizz {
                                 checkAnswer(message, this);
                                 nextQuestion(this);
                                 showPlayerScore(this);
-                                // System.out.println(checkWinner(this));
+                                checkWinner(this);
                                 continue;
                             }
                             if (message.equals("")) {
@@ -245,7 +263,7 @@ public class Quizz {
     }
         public void close() {
         try {
-            clientSocket.close();
+            playerSocket.close();
             --numberOfOnlinePlayers;
         } catch (IOException e) {
             e.printStackTrace();
