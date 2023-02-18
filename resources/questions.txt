@@ -1,9 +1,18 @@
 What year was the very first model of the iPhone released?::d::a 2005; b 2002; c 2010; d 2007::medium::Technology
 What’s the shortcut for the “copy” function on most computers?::b::a shift; b ctrl c; c shift space; ctrl shift c::easy::Technology
 Is Java a type of OS?::b::a yes is a OS; b No, is a programming language; c Yes, is a OS and a Coffee; d None of the answers::medium::Technology
- Who is often called the father of the computer?::b::a Alan Turing; b Charles Babbage; c Bill Gates; d Elon Musk::hard::Technology
+Who is often called the father of the computer?::b::a Alan Turing; b Charles Babbage; c Bill Gates; d Elon Musk::hard::Technology
 What does “HTTP” stand for?::a::a HyperText Transfer Protocol; b Hight Text Protocol; c HyperTexter Transfer Pixel; d None of the answers::medium::Technology
 What is the name of the man who launched eBay back in 1995?::c::a Daniel Ek; b Elon Musk; c Pierre Omidyar; d None of the answers::hard::Technology
 Which email service is owned by Microsoft?::b::a Gmail; b Hotmail; c Yahoo; d None of the answers::medium::Technology
 Google Chrome, Safari, Firefox, and Explorer are different types of what?::b::a OS; b Web browsers; c Application; d None of the answers::easy::Technology
 What was Twitter’s original name?::d::a Twist; b Twitch; c Bird; d twttr::medium::Technology
+Who discovered penicillin?::a::a Alexander Fleming; b Edward Jenner; c Thomas Edison d None of the answers::medium::Science
+Who was the first woman to win a Nobel Prize (in 1903)?::b::a Carolyn R. Bertozzi; b  Marie Curie; c Annie Ernaux; d Barbara McClintock::medium::Science
+What part of the atom has no electric charge?::c::a Proton; b Electron; c Neutron; d ion::medium::Science
+What is the symbol for potassium?::d::a P; b Pt; c Po; d K::easy::Science
+What is meteorology the study of?::a::a The weather; b Climate changes; c The environment; d None of the answers::easy::Science
+Which planet is the hottest in the solar system?::c::a Earth; b mars; c Venus; d Mercury::medium::Science
+Which natural disaster is measured with a Richter scale?::d::a Hurricanes; b tsunamis; c volcanic eruptions; d Earthquakes::easy::Science
+Which planet has the most gravity?::a::a Jupiter; b Saturn; c Mars; d Earth::hard::Science
+How many molecules of oxygen does ozone have?::c::a Two; b One; c Three; d Four::medium::Science
