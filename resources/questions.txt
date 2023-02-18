@@ -1,3 +1,9 @@
-What year was the very first model of the iPhone released?::d::a-2005; b-2002; c-2010; d-2007::medium::Technology
-What’s the shortcut for the “copy” function on most computers?::b::a-shift; b-ctrl c; c-shift space;d-ctrl shift c::easy::Technology
-Is Java a type of OS?::b::a-yes is a OS; b-No, is a programming language; c-Yes, is a OS and a Coffee; d-None of the answers::medium::Technology
+What year was the very first model of the iPhone released?::d::a 2005; b 2002; c 2010; d 2007::medium::Technology
+What’s the shortcut for the “copy” function on most computers?::b::a shift; b ctrl c; c shift space; ctrl shift c::easy::Technology
+Is Java a type of OS?::b::a yes is a OS; b No, is a programming language; c Yes, is a OS and a Coffee; d None of the answers::medium::Technology
+ Who is often called the father of the computer?::b::a Alan Turing; b Charles Babbage; c Bill Gates; d Elon Musk::hard::Technology
+What does “HTTP” stand for?::a::a HyperText Transfer Protocol; b Hight Text Protocol; c HyperTexter Transfer Pixel; d None of the answers::medium::Technology
+What is the name of the man who launched eBay back in 1995?::c::a Daniel Ek; b Elon Musk; c Pierre Omidyar; d None of the answers::hard::Technology
+Which email service is owned by Microsoft?::b::a Gmail; b Hotmail; c Yahoo; d None of the answers::medium::Technology
+Google Chrome, Safari, Firefox, and Explorer are different types of what?::b::a OS; b Web browsers; c Application; d None of the answers::easy::Technology
+What was Twitter’s original name?::d::a Twist; b Twitch; c Bird; d twttr::medium::Technology
