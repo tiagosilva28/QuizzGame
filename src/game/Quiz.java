@@ -12,9 +12,8 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
-public class Quizz {
+public class Quiz {
     private ServerSocket serverSocket;
     private ExecutorService service;
     private final List<PlayerController> players;
@@ -24,9 +23,7 @@ public class Quizz {
     private final Object lock = new Object();
 
 
-    //paracommit teste
-
-    public Quizz() {
+    public Quiz() {
         players = new CopyOnWriteArrayList<>();
     }
 
@@ -85,8 +82,31 @@ public class Quizz {
 
         sendToMySelf(playerController.getUserName(), playerController.playerQuestions.element().toString());
     }
-    protected void nextQuestion(PlayerController playerController){
-        sendQuestion(playerController);
+    protected void nextQuestion(PlayerController playerController, String playerInput){
+        switch (playerInput){
+            case "*next":
+                sendQuestion(playerController);
+                break;
+            case "*easy":
+               String easyQuestion = playerController.playerQuestions.stream()
+                        .filter(question -> question.difficulty
+                                .equals("easy")).map(question -> question.toString()).findFirst().orElse(" ");
+               sendToMySelf(playerController.getUserName(), easyQuestion);
+               break;
+            case "*medium":
+                String mediumQuestion = playerController.playerQuestions.stream()
+                        .filter(question -> question.difficulty
+                                .equals("medium")).map(question -> question.toString()).findFirst().orElse(" ");
+                sendToMySelf(playerController.getUserName(), mediumQuestion);
+                break;
+            case "*hard":
+                String hardQuestion = playerController.playerQuestions.stream()
+                        .filter(question -> question.difficulty
+                                .equals("hard")).map(question -> question.toString()).findFirst().orElse(" ");
+                sendToMySelf(playerController.getUserName(), hardQuestion);
+                break;
+        }
+        //sendQuestion(playerController);
         showPlayerScore(playerController);
     }
 
@@ -100,25 +120,25 @@ public class Quizz {
     }
 
     private void addPlayer(PlayerController playerController) {
-        /*synchronized (clients) {
-            clients.add(clientConnectionHandler);
-        }*/
-
         players.add(playerController);
         playerController.send(Messages.WELCOME.formatted(playerController.getUserName()));
         playerController.send(Messages.COMMANDS_LIST);
-        sendToAll(playerController.getUserName(), Messages.CLIENT_ENTERED_CHAT);
+        //playerController.send("Choose your user name:");
     }
 
     private void checkAnswer(String playerAnswer, PlayerController playerController) {
+        if(playerAnswer.startsWith("*")){
+            return;
+        }
         if(playerAnswer.toLowerCase().equals(playerController.playerQuestions.element().rightAnswer)) {
             calculateAndSetScore(playerController);
             sendToMySelf(playerController.getUserName(), Messages.CORRECT_ANSWER);
-            sendToMySelf(playerController.getUserName(), String.valueOf(playerController.getScore()));
+            sendToMySelf(playerController.getUserName(), "Your score is: " + String.valueOf(playerController.getScore()));
         } else {
             sendToMySelf(playerController.getUserName(), Messages.WRONG_ANSWER);
         }
         playerController.playerQuestions.remove();
+        sendToMySelf(playerController.getUserName(),Messages.NEXT_QUESTION);
         playerController.round++;
     }
 
@@ -126,13 +146,11 @@ public class Quizz {
         switch (playerController.playerQuestions.element().difficulty){
             case "easy":
                 playerController.setScore(playerController.getScore() + DifficultyLevels.EASY.getScore());
-                break;
             case "medium":
                 playerController.setScore(playerController.getScore() + DifficultyLevels.MEDIUM.getScore());
-                break;
             case "hard":
                 playerController.setScore(playerController.getScore() + DifficultyLevels.HARD.getScore());
-                break;
+
         }
     }
 
@@ -142,17 +160,8 @@ public class Quizz {
     }
     private void checkWinner(PlayerController playerController){
         String theWinner = null;
-
-
         int nrPlayerThatFinished = players.stream()
                 .filter(player -> player.round == 2).toList().size();
-
-        System.out.println(playerController.playerQuestions.size());
-
-        System.out.println("ROUND " + playerController.round);
-        System.out.println("PLAYERS FINISH " + nrPlayerThatFinished);
-        System.out.println("ONLINE PLAYERS " + numberOfOnlinePlayers);
-
 
         if(nrPlayerThatFinished == numberOfOnlinePlayers){
          theWinner = players.stream()
@@ -160,20 +169,17 @@ public class Quizz {
                   .map(player -> "The Winner is: " + player.getUserName() + " with the score: " + player.getScore()).orElse("TIEEEEEE");
             sendToAll(playerController.getUserName(), theWinner);
         }
-        System.out.println("ENTER IN METHOD WINNER");
-
     }
-
-    public void sendToAll(String name, String message) {
+    public void sendToAll(String whoIsSending, String message) {
         players.stream()
                // .filter(handler -> !handler.getName().equals(name))
-                .forEach(player -> player.send(name + ": " + message));
+                .forEach(player -> player.send(message));
     }
 
     public void sendToMySelf(String name, String message) {
         players.stream()
                 .filter(handler -> handler.getUserName().equals(name))
-                .forEach(handler -> handler.send(name + ": " + message));
+                .forEach(handler -> handler.send(message));
     }
 
     public String listClients() {
@@ -199,7 +205,6 @@ public class Quizz {
         private Socket playerSocket;
         private BufferedWriter out;
         private String message;
-        private String playerAnswer;
         private int score = 0;
         private int round;
         private Queue<Question> playerQuestions = new LinkedList<>(questions);
@@ -227,9 +232,9 @@ public class Quizz {
                                 dealWithCommand(message);
                                 continue;
                             }
-                            if (isAnAnswer(message)) {
+                            if (isAnAnswer(message) || isACommandForNextQuestion(message)) {
                                 checkAnswer(message, this);
-                                nextQuestion(this);
+                                nextQuestion(this, message);
                                 showPlayerScore(this);
                                 checkWinner(this);
                                 continue;
@@ -249,10 +254,13 @@ public class Quizz {
 
         private boolean isCommand(String message) {
         return message.startsWith("/");
-    }
+        }
         private boolean isAnAnswer(String message) {
         return message.matches("(?i)[abcd]");
-    }
+        }
+        private boolean isACommandForNextQuestion(String message) {
+            return message.startsWith("*");
+        }
         private void dealWithCommand(String message) throws IOException {
         String description = message.split(" ")[0];
         Command command = Command.getCommandFromDescription(description);
@@ -264,7 +272,7 @@ public class Quizz {
             return;
         }
 
-        command.getHandler().execute(Quizz.this, this);
+        command.getHandler().execute(Quiz.this, this);
     }
         public void send(String message) {
         try {

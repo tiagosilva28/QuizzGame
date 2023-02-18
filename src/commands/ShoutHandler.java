@@ -1,12 +1,12 @@
 package commands;
 
-import game.Quizz;
+import game.Quiz;
 
 public class ShoutHandler implements CommandHandler {
     @Override
-    public void execute(Quizz quizz, Quizz.PlayerController playerController) {
+    public void execute(Quiz quiz, Quiz.PlayerController playerController) {
         String message = playerController.getMessage();
         String messageToSend = message.substring(6);
-        quizz.sendToAll(playerController.getUserName(), messageToSend.toUpperCase());
+        quiz.sendToAll(playerController.getUserName(), messageToSend.toUpperCase());
     }
 }

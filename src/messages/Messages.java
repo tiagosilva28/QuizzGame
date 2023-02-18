@@ -11,7 +11,7 @@ public abstract class Messages {
             /shout <message> -> lets you shout a message to all connected clients
             /whisper <username> <message> -> lets you whisper a message to a single connected client
             /name <new name> -> lets you change your name
-            /quit -> exits the server""";
+            /quit -> exits the server\n""";
     public static final String CLIENT_DISCONNECTED = " left the chat.";
     public static final String WHISPER_INSTRUCTIONS = "Invalid whisper use. Correct use: '/whisper <username> <message>";
     public static final String NO_SUCH_CLIENT = "The client you want to whisper to doesn't exists.";
@@ -31,5 +31,9 @@ public abstract class Messages {
     public static final String NAME_CHANGED = "%s changed name to: %s";
     public static final String CORRECT_ANSWER = "Congrats! Your answer is correct!";
     public static final String WRONG_ANSWER = "Wrong answer.";
+    public static final String NEXT_QUESTION = "*next - random question ||" +
+            " *easy - easy question || " +
+            " *medium - medium question || " +
+            " *hard - hard question" ;
 
 }

@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Merge Files from Branch 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Quizz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quizz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/CommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/CommandHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/HelpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/HelpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/ListHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/ListHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/NameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/NameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/QuitHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/QuitHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/ShoutHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/ShoutHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/WhisperHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/WhisperHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Quizz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/messages/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/messages/Messages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +49,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="VersaoAntiga" />
+        <entry key="$PROJECT_DIR$" value="branch2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -93,7 +102,7 @@
       <module name="QuizzGame" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="game.Quizz" />
+          <option name="PATTERN" value="game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -106,7 +115,7 @@
       <module name="QuizzGame" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="game.Quizz" />
+          <option name="PATTERN" value="game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -120,6 +129,8 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Player" />
+        <item itemvalue="Application.App" />
         <item itemvalue="Application.Player" />
         <item itemvalue="Application.App" />
       </list>
@@ -219,47 +230,6 @@
     <MESSAGE value="resolution of correct answer" />
     <MESSAGE value="Merge Files from Branch 2" />
     <option name="LAST_COMMIT_MESSAGE" value="Merge Files from Branch 2" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>129</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>126</line>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>125</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>116</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>143</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>146</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/game/Quizz.java</url>
-          <line>156</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -1,6 +1,6 @@
 package commands;
 
-import game.Quizz;
+import game.Quiz;
 import messages.Messages;
 
 import java.util.Optional;
@@ -8,7 +8,7 @@ import java.util.Optional;
 public class WhisperHandler implements CommandHandler {
 
     @Override
-    public void execute(Quizz quizz, Quizz.PlayerController playerController) {
+    public void execute(Quiz quiz, Quiz.PlayerController playerController) {
         String message = playerController.getMessage();
 
         if (message.split(" ").length < 3) {
@@ -16,7 +16,7 @@ public class WhisperHandler implements CommandHandler {
             return;
         }
 
-        Optional<Quizz.PlayerController> receiverClient = quizz.getClientByName(message.split(" ")[1]);
+        Optional<Quiz.PlayerController> receiverClient = quiz.getClientByName(message.split(" ")[1]);
 
         if (receiverClient.isEmpty()) {
             playerController.send(Messages.NO_SUCH_CLIENT);

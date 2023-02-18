@@ -1,11 +1,11 @@
 package commands;
 
-import game.Quizz;
+import game.Quiz;
 
 public class ListHandler implements CommandHandler {
 
     @Override
-    public void execute(Quizz quizz, Quizz.PlayerController playerController) {
-       playerController.send(quizz.listClients());
+    public void execute(Quiz quiz, Quiz.PlayerController playerController) {
+       playerController.send(quiz.listClients());
     }
 }

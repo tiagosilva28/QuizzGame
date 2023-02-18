@@ -1,7 +1,7 @@
 package commands;
 
-import game.Quizz;
+import game.Quiz;
 
 public interface CommandHandler {
-    void execute(Quizz quizz, Quizz.PlayerController playerController);
+    void execute(Quiz quiz, Quiz.PlayerController playerController);
 }
