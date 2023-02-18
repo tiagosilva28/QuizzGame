@@ -16,3 +16,14 @@ Which planet is the hottest in the solar system?::c::a Earth; b mars; c Venus; d
 Which natural disaster is measured with a Richter scale?::d::a Hurricanes; b tsunamis; c volcanic eruptions; d Earthquakes::easy::Science
 Which planet has the most gravity?::a::a Jupiter; b Saturn; c Mars; d Earth::hard::Science
 How many molecules of oxygen does ozone have?::c::a Two; b One; c Three; d Four::medium::Science
+
+What is Hawkeye’s real name?::b::a-Tony Strak; b-Clint Barton; c-Steve Rogers; d-Bruce Banner::easy::Comics
+Which Avenger is the only one who could calm the Hulk down?::c::a-Spider Man; b-Thor; c-Black Widow; d-Iron Man::easy::Comics
+Night Crawler, member of the X-Men, has what kind of powers?::d::a-invincibility; b-regeneration; c- can read minds; d-can teleport::medium::Comics
+Which infinity stone was located on Vormir?::a::a-soul stone; b-time stone; c-mind stone; d-space stone::medium::Comics
+Which original Avenger was not in the first few movies?::c::a-Iron Man;b-Hulk;c-The Wasp;d-Thor::easy::Comics
+What was Superman’s birth name?::d::a-Cir-El.;b-Don-El.;c-Jor-El.;d-Kal-El::hard::Comics
+What is the name of Batman’s butler?::b::a-Jarvis; b-Alfred; c-Jason; d-Thomas::easy::Comics
+Aquaman is from which city under the sea?::d::a-Dwarka; b-Atlit Yam; c-Saeftinghe; d-Atlantis::medium::Comics
+Who is Green Lantern’s nemesis?::c::a-Atrocitus; b-Kryb; c-Sinestro; d-Black Hand::medium::Comics
+What does DC stand for?::a::a-Detective Comics; b-Distinctive Comics; c-Diverse Comics; d- Different Comics::hard:Comics
