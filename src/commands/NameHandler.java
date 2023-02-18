@@ -4,13 +4,13 @@ import game.Quiz;
 import messages.Messages;
 
 
-public class NameHandler implements CommandHandler{
+public class NameHandler implements CommandHandler {
     @Override
     public void execute(Quiz quiz, Quiz.PlayerController playerController) {
         String message = playerController.getMessage();
         String name = message.substring(6);
         String oldName = playerController.getUserName();
-        quiz.getClientByName(name).ifPresentOrElse(
+        quiz.getPlayerByName(name).ifPresentOrElse(
                 client -> playerController.send(Messages.CLIENT_ALREADY_EXISTS),
                 () -> {
                     playerController.setUserName(name);

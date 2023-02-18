@@ -14,13 +14,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Quiz {
+    private final List<PlayerController> players;
+    private final Object lock = new Object();
     private ServerSocket serverSocket;
     private ExecutorService service;
-    private final List<PlayerController> players;
     private Queue<Question> questions = new LinkedList<>();
     private boolean hasResponded = true;
     private int numberOfOnlinePlayers = 0;
-    private final Object lock = new Object();
 
 
     public Quiz() {
@@ -45,6 +45,22 @@ public class Quiz {
             }
 
         }
+    }
+
+    public void acceptConnection(int numberOfConnections) throws IOException {
+        Socket playerSocket = serverSocket.accept();
+        PlayerController playerController =
+                new PlayerController(playerSocket,
+                        Messages.DEFAULT_NAME + numberOfConnections);
+        service.submit(playerController);
+        //addClient(clientConnectionHandler);
+    }
+
+    private void addPlayer(PlayerController playerController) {
+        players.add(playerController);
+        playerController.send(Messages.WELCOME.formatted(playerController.getUserName()));
+        playerController.send(Messages.COMMANDS_LIST);
+        //playerController.send("Choose your user name:");
     }
 
     protected void splitAndCreateQuestionsQueue() {
@@ -82,17 +98,67 @@ public class Quiz {
 
         sendToMySelf(playerController.getUserName(), playerController.playerQuestions.element().toString());
     }
-    protected void nextQuestion(PlayerController playerController, String playerInput){
-        switch (playerInput){
+
+    private void checkAnswer(String playerAnswer, PlayerController playerController) {
+        if (playerAnswer.startsWith("*")) {
+            return;
+        }
+        if (playerAnswer.toLowerCase().equals(playerController.playerQuestions.element().rightAnswer)) {
+            calculateAndSetScore(playerController);
+            sendToMySelf(playerController.getUserName(), Messages.CORRECT_ANSWER);
+            sendToMySelf(playerController.getUserName(), "Your score is: " + String.valueOf(playerController.getScore()));
+        } else {
+            sendToMySelf(playerController.getUserName(), Messages.WRONG_ANSWER);
+        }
+        playerController.playerQuestions.remove();
+        sendToMySelf(playerController.getUserName(), Messages.NEXT_QUESTION);
+        playerController.round++;
+    }
+
+    private void calculateAndSetScore(PlayerController playerController) {
+        switch (playerController.playerQuestions.element().difficulty) {
+            case "easy":
+                playerController.setScore(playerController.getScore() + DifficultyLevels.EASY.getScore());
+                break;
+            case "medium":
+                playerController.setScore(playerController.getScore() + DifficultyLevels.MEDIUM.getScore());
+                break;
+            case "hard":
+                playerController.setScore(playerController.getScore() + DifficultyLevels.HARD.getScore());
+                break;
+
+        }
+    }
+
+    private void showPlayerScore(PlayerController playerController) {
+        System.out.println(playerController.getUserName() + " score: " + playerController.getScore());
+
+    }
+
+    private void checkWinner(PlayerController playerController) {
+        String theWinner = null;
+        int nrPlayerThatFinished = players.stream()
+                .filter(player -> player.round == 2).toList().size();
+
+        if (nrPlayerThatFinished == numberOfOnlinePlayers) {
+            theWinner = players.stream()
+                    .max(Comparator.comparing(player -> player.getScore()))
+                    .map(player -> "The Winner is: " + player.getUserName() + " with the score: " + player.getScore()).orElse("TIEEEEEE");
+            sendToAll(playerController.getUserName(), theWinner);
+        }
+    }
+
+    protected void nextQuestion(PlayerController playerController, String playerInput) {
+        switch (playerInput) {
             case "*next":
                 sendQuestion(playerController);
                 break;
             case "*easy":
-               String easyQuestion = playerController.playerQuestions.stream()
+                String easyQuestion = playerController.playerQuestions.stream()
                         .filter(question -> question.difficulty
                                 .equals("easy")).map(question -> question.toString()).findFirst().orElse(" ");
-               sendToMySelf(playerController.getUserName(), easyQuestion);
-               break;
+                sendToMySelf(playerController.getUserName(), easyQuestion);
+                break;
             case "*medium":
                 String mediumQuestion = playerController.playerQuestions.stream()
                         .filter(question -> question.difficulty
@@ -110,69 +176,9 @@ public class Quiz {
         showPlayerScore(playerController);
     }
 
-    public void acceptConnection(int numberOfConnections) throws IOException {
-        Socket playerSocket = serverSocket.accept();
-        PlayerController playerController =
-                new PlayerController(playerSocket,
-                        Messages.DEFAULT_NAME + numberOfConnections);
-        service.submit(playerController);
-        //addClient(clientConnectionHandler);
-    }
-
-    private void addPlayer(PlayerController playerController) {
-        players.add(playerController);
-        playerController.send(Messages.WELCOME.formatted(playerController.getUserName()));
-        playerController.send(Messages.COMMANDS_LIST);
-        //playerController.send("Choose your user name:");
-    }
-
-    private void checkAnswer(String playerAnswer, PlayerController playerController) {
-        if(playerAnswer.startsWith("*")){
-            return;
-        }
-        if(playerAnswer.toLowerCase().equals(playerController.playerQuestions.element().rightAnswer)) {
-            calculateAndSetScore(playerController);
-            sendToMySelf(playerController.getUserName(), Messages.CORRECT_ANSWER);
-            sendToMySelf(playerController.getUserName(), "Your score is: " + String.valueOf(playerController.getScore()));
-        } else {
-            sendToMySelf(playerController.getUserName(), Messages.WRONG_ANSWER);
-        }
-        playerController.playerQuestions.remove();
-        sendToMySelf(playerController.getUserName(),Messages.NEXT_QUESTION);
-        playerController.round++;
-    }
-
-    private void calculateAndSetScore(PlayerController playerController){
-        switch (playerController.playerQuestions.element().difficulty){
-            case "easy":
-                playerController.setScore(playerController.getScore() + DifficultyLevels.EASY.getScore());
-            case "medium":
-                playerController.setScore(playerController.getScore() + DifficultyLevels.MEDIUM.getScore());
-            case "hard":
-                playerController.setScore(playerController.getScore() + DifficultyLevels.HARD.getScore());
-
-        }
-    }
-
-    private void showPlayerScore(PlayerController playerController){
-        System.out.println(playerController.getUserName() + " score: " + playerController.getScore());
-
-    }
-    private void checkWinner(PlayerController playerController){
-        String theWinner = null;
-        int nrPlayerThatFinished = players.stream()
-                .filter(player -> player.round == 2).toList().size();
-
-        if(nrPlayerThatFinished == numberOfOnlinePlayers){
-         theWinner = players.stream()
-                  .max(Comparator.comparing(player -> player.getScore()))
-                  .map(player -> "The Winner is: " + player.getUserName() + " with the score: " + player.getScore()).orElse("TIEEEEEE");
-            sendToAll(playerController.getUserName(), theWinner);
-        }
-    }
     public void sendToAll(String whoIsSending, String message) {
         players.stream()
-               // .filter(handler -> !handler.getName().equals(name))
+                // .filter(handler -> !handler.getName().equals(name))
                 .forEach(player -> player.send(message));
     }
 
@@ -188,12 +194,12 @@ public class Quiz {
         return buffer.toString();
     }
 
-    public void removeClient(PlayerController playerController) {
+    public void removePlayer(PlayerController playerController) {
         players.remove(playerController);
 
     }
 
-    public Optional<PlayerController> getClientByName(String name) {
+    public Optional<PlayerController> getPlayerByName(String name) {
         return players.stream()
                 .filter(clientConnectionHandler -> clientConnectionHandler.getUserName().equalsIgnoreCase(name))
                 .findFirst();
@@ -208,6 +214,7 @@ public class Quiz {
         private int score = 0;
         private int round;
         private Queue<Question> playerQuestions = new LinkedList<>(questions);
+
         private PlayerController(Socket playerSocket, String userName) throws IOException {
             this.playerSocket = playerSocket;
             this.userName = userName;
@@ -221,92 +228,102 @@ public class Quiz {
 
             addPlayer(this);
 
-                try {
-                        sendQuestion(this);
-                        // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                        Scanner in = new Scanner(playerSocket.getInputStream());
-                        while (in.hasNext()) {
+            try {
+                sendQuestion(this);
+                // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                Scanner in = new Scanner(playerSocket.getInputStream());
+                while (in.hasNext()) {
 
-                            message = in.nextLine();
-                            if (isCommand(message)) {
-                                dealWithCommand(message);
-                                continue;
-                            }
-                            if (isAnAnswer(message) || isACommandForNextQuestion(message)) {
-                                checkAnswer(message, this);
-                                nextQuestion(this, message);
-                                showPlayerScore(this);
-                                checkWinner(this);
-                                continue;
-                            }
-                            if (message.equals("")) {
-                                continue;
-                            }
-                            sendToAll(userName, message);
-                        }
-
-                    } catch(IOException e){
-                        System.err.println(Messages.CLIENT_ERROR + e.getMessage());
+                    message = in.nextLine();
+                    if (isCommand(message)) {
+                        dealWithCommand(message);
+                        continue;
                     }
+                    if (isAnAnswer(message) || isACommandForNextQuestion(message)) {
+                        checkAnswer(message, this);
+                        nextQuestion(this, message);
+                        showPlayerScore(this);
+                        checkWinner(this);
+                        continue;
+                    }
+                    if (message.equals("")) {
+                        continue;
+                    }
+                    sendToAll(userName, message);
+                }
+
+            } catch (IOException e) {
+                System.err.println(Messages.CLIENT_ERROR + e.getMessage());
+            }
 
         }
 
 
         private boolean isCommand(String message) {
-        return message.startsWith("/");
+            return message.startsWith("/");
         }
+
         private boolean isAnAnswer(String message) {
-        return message.matches("(?i)[abcd]");
+            return message.matches("(?i)[abcd]");
         }
+
         private boolean isACommandForNextQuestion(String message) {
             return message.startsWith("*");
         }
+
         private void dealWithCommand(String message) throws IOException {
-        String description = message.split(" ")[0];
-        Command command = Command.getCommandFromDescription(description);
+            String description = message.split(" ")[0];
+            Command command = Command.getCommandFromDescription(description);
 
-        if (command == null) {
-            out.write(Messages.NO_SUCH_COMMAND);
-            out.newLine();
-            out.flush();
-            return;
+            if (command == null) {
+                out.write(Messages.NO_SUCH_COMMAND);
+                out.newLine();
+                out.flush();
+                return;
+            }
+
+            command.getHandler().execute(Quiz.this, this);
         }
 
-        command.getHandler().execute(Quiz.this, this);
-    }
         public void send(String message) {
-        try {
-            out.write(message);
-            out.newLine();
-            out.flush();
-        } catch (IOException e) {
-            removeClient(this);
-            e.printStackTrace();
+            try {
+                out.write(message);
+                out.newLine();
+                out.flush();
+            } catch (IOException e) {
+                removePlayer(this);
+                e.printStackTrace();
+            }
         }
-    }
+
         public void close() {
-        try {
-            playerSocket.close();
-            --numberOfOnlinePlayers;
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                playerSocket.close();
+                --numberOfOnlinePlayers;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
+
         public String getUserName() {
-        return userName;
-    }
+            return userName;
+        }
+
         public void setUserName(String userName) {
-        this.userName = userName;
-    }
+            this.userName = userName;
+        }
+
         public int getScore() {
             return score;
         }
+
         public void setScore(int score) {
             this.score = score;
         }
+
         public String getMessage() {
-        return message;
-    }
+            return message;
+        }
 
         public void setPlayerQuestions(Queue<Question> playerQuestions) {
             this.playerQuestions = playerQuestions;

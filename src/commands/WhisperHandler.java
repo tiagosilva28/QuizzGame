@@ -16,7 +16,7 @@ public class WhisperHandler implements CommandHandler {
             return;
         }
 
-        Optional<Quiz.PlayerController> receiverClient = quiz.getClientByName(message.split(" ")[1]);
+        Optional<Quiz.PlayerController> receiverClient = quiz.getPlayerByName(message.split(" ")[1]);
 
         if (receiverClient.isEmpty()) {
             playerController.send(Messages.NO_SUCH_CLIENT);
