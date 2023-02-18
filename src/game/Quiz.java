@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class Quiz {
     private final List<PlayerController> players;
@@ -50,6 +51,7 @@ public class Quiz {
 
     public void acceptConnection(int numberOfConnections) throws IOException {
         Socket playerSocket = serverSocket.accept();
+
         PlayerController playerController =
                 new PlayerController(playerSocket,
                         Messages.DEFAULT_NAME + numberOfConnections);
@@ -57,11 +59,11 @@ public class Quiz {
         //addClient(clientConnectionHandler);
     }
 
-    private void addPlayer(PlayerController playerController) {
+    private void addPlayerAndStartGame(PlayerController playerController) {
         players.add(playerController);
         playerController.send(Messages.WELCOME.formatted(playerController.getUserName()));
         playerController.send(Messages.COMMANDS_LIST);
-        //playerController.send("Choose your user name:");
+
     }
 
     protected void splitAndCreateQuestionsQueue() {
@@ -146,15 +148,27 @@ public class Quiz {
     }
 
     private void checkWinner(PlayerController playerController) {
-        String theWinner = null;
+
         int nrPlayerThatFinished = players.stream()
                 .filter(player -> player.round == 10).toList().size();
 
         if (nrPlayerThatFinished == numberOfOnlinePlayers) {
-            theWinner = players.stream()
+            int highestScore = players.stream()
                     .max(Comparator.comparing(player -> player.getScore()))
-                    .map(player -> "The Winner is: " + player.getUserName() + " with the score: " + player.getScore()).orElse("TIEEEEEE");
-            sendToAll(playerController.getUserName(), theWinner);
+                    .map(player -> player.getScore())
+                    .get();
+
+            List<PlayerController> winners = players.stream()
+                    .filter(player -> player.getScore() == highestScore)
+                    .collect(Collectors.toList());
+            String winnersName = winners.stream()
+                    .map(player -> player.getUserName())
+                    .collect(Collectors.joining(", "));
+            String winnersMessage = "Congratulation! " + winnersName + " you win the quiz.";
+
+            sendToAll(playerController.getUserName(), winnersMessage);
+            sendToAll(playerController.getUserName(), Messages.GAME_OVER);
+
         }
     }
 
@@ -250,12 +264,16 @@ public class Quiz {
         public void run() {
 
 
-            addPlayer(this);
+            addPlayerAndStartGame(this);
 
             try {
-                sendQuestion(this);
-                // BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 Scanner in = new Scanner(playerSocket.getInputStream());
+                sendToMySelf(this.userName, "Write your username: ");
+                String userName = in.nextLine();
+                setUserName(userName);
+
+                sendQuestion(this);
+
                 while (in.hasNext()) {
 
                     message = in.nextLine();
