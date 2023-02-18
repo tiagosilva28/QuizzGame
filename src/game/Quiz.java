@@ -27,7 +27,7 @@ public class Quiz {
 
     public Quiz() {
         players = new CopyOnWriteArrayList<>();
-    } //Hello aaaaa
+    }
 
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
