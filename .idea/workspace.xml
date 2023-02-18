@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Merge Files from Branch 2" />
+    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Rearrange Classes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +24,7 @@
     <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="origin/TiagoUpdates" />
+    <option name="BRANCH" value="origin/branch2" />
   </component>
   <component name="Git.Settings">
     <favorite-branches>
@@ -53,7 +55,7 @@
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="a7ed5a57-6ef1-4fc1-a6ff-5c00b7026f59" />
+        <option name="accountId" value="33d7a5a6-3f9b-42b2-b1ea-d55022766d8a" />
         <option name="url" value="https://github.com/tiagosilva28/QuizzGame.git" />
       </UrlAndAccount>
     </option>
@@ -127,6 +129,9 @@
       <list>
         <item itemvalue="Application.Player" />
         <item itemvalue="Application.App" />
+        <item itemvalue="Application.Player" />
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.Player" />
       </list>
     </recent_temporary>
   </component>
@@ -202,7 +207,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676727175834</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Rearrange Classes">
+      <created>1676730338987</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1676730338987</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
