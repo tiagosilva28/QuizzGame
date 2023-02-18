@@ -7,7 +7,7 @@ public class App {
         Quiz quiz = new Quiz();
 
         try {
-            quiz.start(8092);
+            quiz.start(8094);
 
         } catch (IOException e) {
             e.printStackTrace();

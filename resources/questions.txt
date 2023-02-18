@@ -25,7 +25,7 @@ What was Superman’s birth name?::d::a-Cir-El.;b-Don-El.;c-Jor-El.;d-Kal-El::ha
 What is the name of Batman’s butler?::b::a-Jarvis; b-Alfred; c-Jason; d-Thomas::easy::Comics
 Aquaman is from which city under the sea?::d::a-Dwarka; b-Atlit Yam; c-Saeftinghe; d-Atlantis::medium::Comics
 Who is Green Lantern’s nemesis?::c::a-Atrocitus; b-Kryb; c-Sinestro; d-Black Hand::medium::Comics
-What does DC stand for?::a::a-Detective Comics; b-Distinctive Comics; c-Diverse Comics; d- Different Comics::hard:Comics
+What does DC stand for?::a::a-Detective Comics; b-Distinctive Comics; c-Diverse Comics; d- Different Comics::hard::Comics
 What is the name of the song that Queen Elsa sings as she builds her ice castle in the movie Frozen?::c::a Let it Be; b Dance on Ice; c Let It Go; d Ice Castle::easy::Movies & TV Questions
 How many films did Sean Connery play James Bond in?::b::a Five; b Seven; c Six; d Four::hard::Movies & TV Questions
 Which Indiana Jones movie was released back in 1984?::a::a Indiana Jones and the Temple of Doom; b Indiana Jones and the Last Crusade; c Indiana Jones and the Kingdom of the Crystal Skull; d Raiders of the Lost Ark::medium::Movies & TV Questions

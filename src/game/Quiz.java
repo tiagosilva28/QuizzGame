@@ -21,6 +21,7 @@ public class Quiz {
     private Queue<Question> questions = new LinkedList<>();
     private boolean hasResponded = true;
     private int numberOfOnlinePlayers = 0;
+    private int numberOfResponses = 0;
 
 
     public Quiz() {
@@ -96,7 +97,9 @@ public class Quiz {
             }
         }
 
+
         sendToMySelf(playerController.getUserName(), playerController.playerQuestions.element().toString());
+        //if (numberOfResponses >= numberOfOnlinePlayers) numberOfResponses = 0;
     }
 
     private void checkAnswer(String playerAnswer, PlayerController playerController) {
@@ -113,6 +116,13 @@ public class Quiz {
         playerController.playerQuestions.remove();
         sendToMySelf(playerController.getUserName(), Messages.NEXT_QUESTION);
         playerController.round++;
+
+        synchronized (lock) {
+            ++numberOfResponses;
+            if (numberOfResponses > numberOfOnlinePlayers) numberOfResponses = 1;
+            lock.notifyAll();
+        }
+
     }
 
     private void calculateAndSetScore(PlayerController playerController) {
@@ -138,7 +148,7 @@ public class Quiz {
     private void checkWinner(PlayerController playerController) {
         String theWinner = null;
         int nrPlayerThatFinished = players.stream()
-                .filter(player -> player.round == 2).toList().size();
+                .filter(player -> player.round == 10).toList().size();
 
         if (nrPlayerThatFinished == numberOfOnlinePlayers) {
             theWinner = players.stream()
@@ -149,6 +159,17 @@ public class Quiz {
     }
 
     protected void nextQuestion(PlayerController playerController, String playerInput) {
+
+        synchronized (lock) {
+            while (numberOfResponses < numberOfOnlinePlayers) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         switch (playerInput) {
             case "*next":
                 sendQuestion(playerController);
@@ -172,6 +193,8 @@ public class Quiz {
                 sendToMySelf(playerController.getUserName(), hardQuestion);
                 break;
         }
+
+
         //sendQuestion(playerController);
         showPlayerScore(playerController);
     }
@@ -197,7 +220,7 @@ public class Quiz {
     public void removePlayer(PlayerController playerController) {
         players.remove(playerController);
 
-    } //here it is
+    }
 
     public Optional<PlayerController> getPlayerByName(String name) {
         return players.stream()
@@ -219,6 +242,7 @@ public class Quiz {
             this.playerSocket = playerSocket;
             this.userName = userName;
             this.out = new BufferedWriter(new OutputStreamWriter(playerSocket.getOutputStream()));
+            Collections.shuffle((List<Question>) playerQuestions);
         }
 
 
