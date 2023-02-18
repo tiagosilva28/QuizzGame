@@ -197,7 +197,7 @@ public class Quiz {
     public void removePlayer(PlayerController playerController) {
         players.remove(playerController);
 
-    }
+    } //here it is
 
     public Optional<PlayerController> getPlayerByName(String name) {
         return players.stream()
