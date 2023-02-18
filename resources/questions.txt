@@ -16,7 +16,6 @@ Which planet is the hottest in the solar system?::c::a Earth; b mars; c Venus; d
 Which natural disaster is measured with a Richter scale?::d::a Hurricanes; b tsunamis; c volcanic eruptions; d Earthquakes::easy::Science
 Which planet has the most gravity?::a::a Jupiter; b Saturn; c Mars; d Earth::hard::Science
 How many molecules of oxygen does ozone have?::c::a Two; b One; c Three; d Four::medium::Science
-
 What is Hawkeye’s real name?::b::a-Tony Strak; b-Clint Barton; c-Steve Rogers; d-Bruce Banner::easy::Comics
 Which Avenger is the only one who could calm the Hulk down?::c::a-Spider Man; b-Thor; c-Black Widow; d-Iron Man::easy::Comics
 Night Crawler, member of the X-Men, has what kind of powers?::d::a-invincibility; b-regeneration; c- can read minds; d-can teleport::medium::Comics
@@ -27,3 +26,23 @@ What is the name of Batman’s butler?::b::a-Jarvis; b-Alfred; c-Jason; d-Thomas
 Aquaman is from which city under the sea?::d::a-Dwarka; b-Atlit Yam; c-Saeftinghe; d-Atlantis::medium::Comics
 Who is Green Lantern’s nemesis?::c::a-Atrocitus; b-Kryb; c-Sinestro; d-Black Hand::medium::Comics
 What does DC stand for?::a::a-Detective Comics; b-Distinctive Comics; c-Diverse Comics; d- Different Comics::hard:Comics
+What is the name of the song that Queen Elsa sings as she builds her ice castle in the movie Frozen?::c::a Let it Be; b Dance on Ice; c Let It Go; d Ice Castle::easy::Movies & TV Questions
+How many films did Sean Connery play James Bond in?::b::a Five; b Seven; c Six; d Four::hard::Movies & TV Questions
+Which Indiana Jones movie was released back in 1984?::a::a Indiana Jones and the Temple of Doom; b Indiana Jones and the Last Crusade; c Indiana Jones and the Kingdom of the Crystal Skull; d Raiders of the Lost Ark::medium::Movies & TV Questions
+How many Lord of the Rings films are there?::d::a Two; b Four; c Five; d Three::medium::Movies & TV Questions
+What was the name of the actor who played Jack Dawson in Titanic?::c::a Tom Hanks; b Tom Cruise; c Leonardo DiCaprio; d Keanu Reeves::easy::Movies & TV Questions
+Which popular TV show featured house Targaryen and Stark?::a::a Game of Thrones; b South Park; c DaVinci's Demons; d The Last of Us::easy::Movies & TV Questions
+What was the name of the family who starred in 7th Heaven?::b::a The Jones; b The Camdens; c The Williams; d The Monroes::hard::Movies & TV Questions
+Which cartoon character lives in a pineapple under the sea?::d::a Bugs Bunny; b Donald Duck; c Peter Griffin; d Spongebob Squarepants::easy::Movies & TV Questions
+In what year was the first episode of South Park aired?::c::a 1998; b 1999; c 1997; d 1994::hard::Movies & TV Questions
+Who is the first actor to play Jack Ryan on screen?::a::a Alec Baldwin; b Ben Affleck; c Harrison Ford; d John Krasinski::medium::Movies & TV Questions
+What is the name of the song that Queen Elsa sings as she builds her ice castle in the movie Frozen?::c::a Let it Be; b Dance on Ice; c Let It Go; d Ice Castle::easy::Movies & TV Questions
+How many films did Sean Connery play James Bond in?::b::a Five; b Seven; c Six; d Four::hard::Movies & TV Questions
+Which Indiana Jones movie was released back in 1984?::a::a Indiana Jones and the Temple of Doom; b Indiana Jones and the Last Crusade; c Indiana Jones and the Kingdom of the Crystal Skull; d Raiders of the Lost Ark::medium::Movies & TV Questions
+How many Lord of the Rings films are there?::d::a Two; b Four; c Five; d Three::medium::Movies & TV Questions
+What was the name of the actor who played Jack Dawson in Titanic?::c::a Tom Hanks; b Tom Cruise; c Leonardo DiCaprio; d Keanu Reeves::easy::Movies & TV Questions
+Which popular TV show featured house Targaryen and Stark?::a::a Game of Thrones; b South Park; c DaVinci's Demons; d The Last of Us::easy::Movies & TV Questions
+What was the name of the family who starred in 7th Heaven?::b::a The Jones; b The Camdens; c The Williams; d The Monroes::hard::Movies & TV Questions
+Which cartoon character lives in a pineapple under the sea?::d::a Bugs Bunny; b Donald Duck; c Peter Griffin; d Spongebob Squarepants::easy::Movies & TV Questions
+In what year was the first episode of South Park aired?::c::a 1998; b 1999; c 1997; d 1994::hard::Movies & TV Questions
+Who is the first actor to play Jack Ryan on screen?::a::a Alec Baldwin; b Ben Affleck; c Harrison Ford; d John Krasinski::medium::Movies & TV Questions
