@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Rearrange Classes" />
+    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Merge Dani and Tiago updates - check winner and wait() for another question">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -233,7 +235,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676741831334</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Merge Dani and Tiago updates - check winner and wait() for another question">
+      <created>1676742649594</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1676742649594</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -271,7 +280,8 @@
     <MESSAGE value="Only send questions to clients when have 2 players connected" />
     <MESSAGE value="Rearrange Classes" />
     <MESSAGE value="wait for next question and shuffle questions" />
-    <option name="LAST_COMMIT_MESSAGE" value="wait for next question and shuffle questions" />
+    <MESSAGE value="Merge Dani and Tiago updates - check winner and wait() for another question" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge Dani and Tiago updates - check winner and wait() for another question" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
