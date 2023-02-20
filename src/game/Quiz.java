@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class Quiz {
     private final List<PlayerController> players;
     private final Object lock = new Object();
+    int gameRounds = 5;
     private ServerSocket serverSocket;
     private ExecutorService service;
     private Queue<Question> questions = new LinkedList<>();
@@ -103,7 +104,9 @@ public class Quiz {
             sendToMySelf(playerController.getUserName(), Messages.WRONG_ANSWER);
         }
         playerController.playerQuestions.remove();
-        sendToMySelf(playerController.getUserName(), Messages.NEXT_QUESTION);
+        if (playerController.round != gameRounds) {
+            sendToMySelf(playerController.getUserName(), Messages.NEXT_QUESTION);
+        }
         synchronized (lock) {
             int numberOfResponsesThisRound = numberOfResponsesByRound.getOrDefault(playerController.round, 0);
             numberOfResponsesByRound.put(playerController.round, (numberOfResponsesThisRound + 1));
@@ -130,9 +133,8 @@ public class Quiz {
     }
 
     private void checkWinner(PlayerController playerController) {
-        int nrPlayerThatFinished = players.stream()
-                .filter(player -> player.round == 10).toList().size();
-        if (nrPlayerThatFinished == numberOfOnlinePlayers) {
+
+        if (numberOfResponsesByRound.containsKey(gameRounds) && numberOfResponsesByRound.get(gameRounds).equals(numberOfOnlinePlayers)) {
             int highestScore = players.stream()
                     .max(Comparator.comparing(player -> player.getScore()))
                     .map(player -> player.getScore())
@@ -144,7 +146,7 @@ public class Quiz {
                     .map(player -> player.getUserName())
                     .collect(Collectors.joining(", "));
             String winnersMessage = "Congratulation! " + winnersName + " you win the quiz.";
-            sendToAll(playerController.getUserName(), winnersMessage);
+            winners.stream().forEach(winnerPlayer -> winnerPlayer.send(winnersMessage));
             sendToAll(playerController.getUserName(), Messages.GAME_OVER);
         }
     }
@@ -169,6 +171,7 @@ public class Quiz {
                 String easyQuestion = playerController.playerQuestions.stream()
                         .filter(question -> question.difficulty
                                 .equals("easy")).map(question -> question.toString()).findFirst().orElse(" ");
+                sendToMySelf(playerController.getUserName(), "Round: " + playerController.round);
                 sendToMySelf(playerController.getUserName(), "\n" + easyQuestion);
                 break;
             case "*medium":
@@ -176,6 +179,7 @@ public class Quiz {
                 String mediumQuestion = playerController.playerQuestions.stream()
                         .filter(question -> question.difficulty
                                 .equals("medium")).map(question -> question.toString()).findFirst().orElse(" ");
+                sendToMySelf(playerController.getUserName(), "Round: " + playerController.round);
                 sendToMySelf(playerController.getUserName(), "\n" + mediumQuestion);
                 break;
             case "*hard":
@@ -183,6 +187,7 @@ public class Quiz {
                 String hardQuestion = playerController.playerQuestions.stream()
                         .filter(question -> question.difficulty
                                 .equals("hard")).map(question -> question.toString()).findFirst().orElse(" ");
+                sendToMySelf(playerController.getUserName(), "Round: " + playerController.round);
                 sendToMySelf(playerController.getUserName(), "\n" + hardQuestion);
                 break;
         }

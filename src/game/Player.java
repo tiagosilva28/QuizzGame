@@ -5,6 +5,15 @@ import java.net.Socket;
 
 public class Player {
 
+    /**
+     * The Player class represents a client that connects to a server using sockets and allows the user to send messages to the server
+     * through the console.
+     */
+
+    /**
+     * The main() method instantiates the Player
+     * class and starts the player by calling the start() method.
+     */
 
     public static void main(String[] args) {
         Player player = new Player();
@@ -15,6 +24,10 @@ public class Player {
         }
     }
 
+    /**
+     * The start() method establishes a socket connection with the server and creates a
+     * BufferedReader and BufferedWriter to read and write messages to the server respectively.
+     */
     private void start(String host, int port) throws IOException {
         Socket socket = new Socket(host, port);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
