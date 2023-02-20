@@ -1,6 +1,8 @@
 package game;
+
 import commands.Command;
 import messages.Messages;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+
 public class Quiz {
     private final List<PlayerController> players;
     private final Object lock = new Object();
@@ -19,9 +22,11 @@ public class Quiz {
     private Queue<Question> questions = new LinkedList<>();
     private int numberOfOnlinePlayers = 0;
     private Map<Integer, Integer> numberOfResponsesByRound = new HashMap<>();
+
     public Quiz() {
         players = new CopyOnWriteArrayList<>();
     }
+
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         service = Executors.newCachedThreadPool();
@@ -37,6 +42,7 @@ public class Quiz {
             }
         }
     }
+
     public void acceptConnection(int numberOfConnections) throws IOException {
         Socket playerSocket = serverSocket.accept();
         PlayerController playerController =
@@ -44,11 +50,13 @@ public class Quiz {
                         Messages.DEFAULT_NAME + numberOfConnections);
         service.submit(playerController);
     }
+
     private void addPlayerAndStartGame(PlayerController playerController) {
         players.add(playerController);
         playerController.send(Messages.WELCOME.formatted(playerController.getUserName()));
         playerController.send(Messages.COMMANDS_LIST);
     }
+
     protected void splitAndCreateQuestionsQueue() {
         Path fileQuestionsPath = Paths.get("resources/questions.txt");
         try (BufferedReader br = new BufferedReader(new FileReader(fileQuestionsPath.toFile()))) {
@@ -68,6 +76,7 @@ public class Quiz {
             e.printStackTrace();
         }
     }
+
     protected void sendQuestion(PlayerController playerController) {
         synchronized (lock) {
             while (numberOfOnlinePlayers < 2) {
@@ -81,6 +90,7 @@ public class Quiz {
         sendToMySelf(playerController.getUserName(), "Round: " + playerController.round);
         sendToMySelf(playerController.getUserName(), "\n" + playerController.playerQuestions.element().toString());
     }
+
     private void checkAnswer(String playerAnswer, PlayerController playerController) {
         if (playerAnswer.startsWith("*")) {
             return;
@@ -100,6 +110,7 @@ public class Quiz {
             lock.notifyAll();
         }
     }
+
     private void calculateAndSetScore(PlayerController playerController) {
         switch (playerController.playerQuestions.element().difficulty) {
             case "easy":
@@ -113,9 +124,11 @@ public class Quiz {
                 break;
         }
     }
+
     private void showPlayerScore(PlayerController playerController) {
         System.out.println(playerController.getUserName() + " score: " + playerController.getScore());
     }
+
     private void checkWinner(PlayerController playerController) {
         int nrPlayerThatFinished = players.stream()
                 .filter(player -> player.round == 10).toList().size();
@@ -135,6 +148,7 @@ public class Quiz {
             sendToAll(playerController.getUserName(), Messages.GAME_OVER);
         }
     }
+
     protected void nextQuestion(PlayerController playerController, String playerInput) {
         synchronized (lock) {
             while (numberOfResponsesByRound.getOrDefault(playerController.round, 0) < numberOfOnlinePlayers) {
@@ -174,29 +188,35 @@ public class Quiz {
         }
         showPlayerScore(playerController);
     }
+
     public void sendToAll(String whoIsSending, String message) {
         players.stream()
                 // .filter(handler -> !handler.getName().equals(name))
                 .forEach(player -> player.send(message));
     }
+
     public void sendToMySelf(String name, String message) {
         players.stream()
                 .filter(handler -> handler.getUserName().equals(name))
                 .forEach(handler -> handler.send(message));
     }
+
     public String listClients() {
         StringBuffer buffer = new StringBuffer();
         players.forEach(client -> buffer.append(client.getUserName()).append("\n"));
         return buffer.toString();
     }
+
     public void removePlayer(PlayerController playerController) {
         players.remove(playerController);
     }
+
     public Optional<PlayerController> getPlayerByName(String name) {
         return players.stream()
                 .filter(clientConnectionHandler -> clientConnectionHandler.getUserName().equalsIgnoreCase(name))
                 .findFirst();
     }
+
     public class PlayerController implements Runnable {
         private String userName;
         private Socket playerSocket;
@@ -205,12 +225,14 @@ public class Quiz {
         private int score = 0;
         private int round = 1;
         private Queue<Question> playerQuestions = new LinkedList<>(questions);
+
         private PlayerController(Socket playerSocket, String userName) throws IOException {
             this.playerSocket = playerSocket;
             this.userName = userName;
             this.out = new BufferedWriter(new OutputStreamWriter(playerSocket.getOutputStream()));
             Collections.shuffle((List<Question>) playerQuestions);
         }
+
         @Override
         public void run() {
             addPlayerAndStartGame(this);
@@ -243,15 +265,19 @@ public class Quiz {
                 System.err.println(Messages.CLIENT_ERROR + e.getMessage());
             }
         }
+
         private boolean isCommand(String message) {
             return message.startsWith("/");
         }
+
         private boolean isAnAnswer(String message) {
             return message.matches("(?i)[abcd]");
         }
+
         private boolean isACommandForNextQuestion(String message) {
             return message.startsWith("*");
         }
+
         private void dealWithCommand(String message) throws IOException {
             String description = message.split(" ")[0];
             Command command = Command.getCommandFromDescription(description);
@@ -263,6 +289,7 @@ public class Quiz {
             }
             command.getHandler().execute(Quiz.this, this);
         }
+
         public void send(String message) {
             try {
                 out.write(message);
@@ -273,6 +300,7 @@ public class Quiz {
                 e.printStackTrace();
             }
         }
+
         public void close() {
             try {
                 playerSocket.close();
@@ -281,19 +309,25 @@ public class Quiz {
                 e.printStackTrace();
             }
         }
+
         public String getUserName() {
             return userName;
         }
+
         public void setUserName(String userName) {
             this.userName = userName;
         }
+
         public int getScore() {
             return score;
         }
+
         public void setScore(int score) {
             this.score = score;
         }
+
         public String getMessage() {
             return message;
         }
     }
+}
