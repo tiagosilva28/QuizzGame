@@ -28,7 +28,6 @@ public abstract class Messages {
             " ##### ##  #######  #### ########     ######   ##     ## ##     ## ######## \n \n";
     public static final String CLIENT_ERROR = "Something went wrong with this client's connection. Error: ";
     public static final String CLIENT_ALREADY_EXISTS = "A client with this name already exists. Please choose another one.";
-
     public static final String SELF_NAME_CHANGED = "You changed your name to: %s";
     public static final String NAME_CHANGED = "%s changed name to: %s";
     public static final String CORRECT_ANSWER = "Congrats! Your answer is correct!";
