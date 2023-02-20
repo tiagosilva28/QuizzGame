@@ -15,6 +15,11 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class Quiz {
+
+    /**
+     * This class represents a Quiz game that can be played by multiple players simultaneously.
+     */
+
     private final List<PlayerController> players;
     private final Object lock = new Object();
     int gameRounds = 5;
@@ -29,11 +34,14 @@ public class Quiz {
     }
 
     public void start(int port) throws IOException {
+        // Initialize server socket and thread pool
         serverSocket = new ServerSocket(port);
         service = Executors.newCachedThreadPool();
+        // Create queue of questions from a file
         splitAndCreateQuestionsQueue();
         int numberOfConnections = 0;
         System.out.printf(Messages.SERVER_STARTED, port);
+        //Start a new thread to handle each connection
         while (true) {
             acceptConnection(numberOfConnections);
             ++numberOfConnections;
@@ -52,12 +60,18 @@ public class Quiz {
         service.submit(playerController);
     }
 
+    /**
+     * Add player to the quiz list of players and send initial message.
+     */
     private void addPlayerAndStartGame(PlayerController playerController) {
         players.add(playerController);
         playerController.send(Messages.WELCOME.formatted(playerController.getUserName()));
         playerController.send(Messages.COMMANDS_LIST);
     }
 
+    /**
+     * Splits the questions file into individual questions and adds them to the questions queue.
+     */
     protected void splitAndCreateQuestionsQueue() {
         Path fileQuestionsPath = Paths.get("resources/questions.txt");
         try (BufferedReader br = new BufferedReader(new FileReader(fileQuestionsPath.toFile()))) {
@@ -78,6 +92,9 @@ public class Quiz {
         }
     }
 
+    /**
+     * Send a question to the player from his queue of questions
+     */
     protected void sendQuestion(PlayerController playerController) {
         synchronized (lock) {
             while (numberOfOnlinePlayers < 2) {
@@ -92,6 +109,11 @@ public class Quiz {
         sendToMySelf(playerController.getUserName(), "\n" + playerController.playerQuestions.element().toString());
     }
 
+    /**
+     * Check the answer (input) of the player, send a message to the player informing if the answer is correct or wrong
+     * and then remove the question from player's queue of questions and send the message to the player to choose
+     * the next question by difficulty or random
+     */
     private void checkAnswer(String playerAnswer, PlayerController playerController) {
         if (playerAnswer.startsWith("*")) {
             return;
@@ -114,6 +136,9 @@ public class Quiz {
         }
     }
 
+    /**
+     * Considering the question difficulty, get the question value on DifficultyLevel (enum) and set the player score
+     */
     private void calculateAndSetScore(PlayerController playerController) {
         switch (playerController.playerQuestions.element().difficulty) {
             case "easy":
@@ -128,11 +153,20 @@ public class Quiz {
         }
     }
 
+    /**
+     * Print the score of the player
+     */
     private void showPlayerScore(PlayerController playerController) {
         System.out.println(playerController.getUserName() + " score: " + playerController.getScore());
     }
 
-    private void checkWinner(PlayerController playerController) {
+    /**
+     * If the game finished (number of rounds equals to attribute rounds) check who is the winner.
+     * Create a list of winners in case more than one player has the maximum score.
+     * Send a message of congratulation to the winners
+     * Send game over to all players
+     */
+    private void checkWinner(PlayerController playerController) throws IOException {
 
         if (numberOfResponsesByRound.containsKey(gameRounds) && numberOfResponsesByRound.get(gameRounds).equals(numberOfOnlinePlayers)) {
             int highestScore = players.stream()
@@ -148,9 +182,16 @@ public class Quiz {
             String winnersMessage = "Congratulation! " + winnersName + " you win the quiz.";
             winners.stream().forEach(winnerPlayer -> winnerPlayer.send(winnersMessage));
             sendToAll(playerController.getUserName(), Messages.GAME_OVER);
+            listPlayersScore();
+            sendToAll(playerController.getUserName(), listPlayersScore());
+
         }
     }
 
+    /**
+     * Considering the input of the player, enter in switch and select the next question from the player queue question.
+     * The question is printed to the player after the lock is notified.
+     */
     protected void nextQuestion(PlayerController playerController, String playerInput) {
         synchronized (lock) {
             while (numberOfResponsesByRound.getOrDefault(playerController.round, 0) < numberOfOnlinePlayers) {
@@ -194,21 +235,30 @@ public class Quiz {
         showPlayerScore(playerController);
     }
 
+    /**
+     * Send a message to all players.
+     */
     public void sendToAll(String whoIsSending, String message) {
         players.stream()
                 // .filter(handler -> !handler.getName().equals(name))
                 .forEach(player -> player.send(message));
     }
 
+    /**
+     * Send a message only to a specific player
+     */
     public void sendToMySelf(String name, String message) {
         players.stream()
                 .filter(handler -> handler.getUserName().equals(name))
                 .forEach(handler -> handler.send(message));
     }
 
-    public String listClients() {
+    /**
+     * Shows a list of all players connected.
+     */
+    public String listPlayersScore() {
         StringBuffer buffer = new StringBuffer();
-        players.forEach(client -> buffer.append(client.getUserName()).append("\n"));
+        players.forEach(client -> buffer.append(client.getUserName()).append(" score: " + client.score + "\n"));
         return buffer.toString();
     }
 
@@ -216,10 +266,59 @@ public class Quiz {
         players.remove(playerController);
     }
 
+    /*private void leaderboard(PlayerController playerController) {
+        // read in scores
+        List<Score> scores = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("resources/leaderboard.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(" with score: ");
+                String name = parts[0];
+                int score = Integer.parseInt(parts[1]);
+                scores.add(new Score(name, score));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // sort by score
+        Collections.sort(scores, Comparator.comparingInt(Score::getScore).reversed());
+
+        // write out sorted scores
+        try (PrintWriter pw = new PrintWriter(new FileWriter("resources/leaderboard.txt"))) {
+            for (Score score : scores) {
+                pw.printf("%s with score: %d \n", score.getName(), score.getScore());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+     */
+
     public Optional<PlayerController> getPlayerByName(String name) {
         return players.stream()
                 .filter(clientConnectionHandler -> clientConnectionHandler.getUserName().equalsIgnoreCase(name))
                 .findFirst();
+    }
+
+    // Score class to store player name and score
+    private static class Score {
+        private final String name;
+        private final int score;
+
+        public Score(String name, int score) {
+            this.name = name;
+            this.score = score;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getScore() {
+            return score;
+        }
     }
 
     public class PlayerController implements Runnable {

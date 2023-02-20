@@ -6,6 +6,6 @@ public class ListHandler implements CommandHandler {
 
     @Override
     public void execute(Quiz quiz, Quiz.PlayerController playerController) {
-       playerController.send(quiz.listClients());
+        playerController.send(quiz.listPlayersScore());
     }
 }
