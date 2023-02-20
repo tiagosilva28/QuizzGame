@@ -35,14 +35,3 @@ Which popular TV show featured house Targaryen and Stark?::a::a Game of Thrones;
 What was the name of the family who starred in 7th Heaven?::b::a The Jones; b The Camdens; c The Williams; d The Monroes::hard::Movies & TV Questions
 Which cartoon character lives in a pineapple under the sea?::d::a Bugs Bunny; b Donald Duck; c Peter Griffin; d Spongebob Squarepants::easy::Movies & TV Questions
 In what year was the first episode of South Park aired?::c::a 1998; b 1999; c 1997; d 1994::hard::Movies & TV Questions
-Who is the first actor to play Jack Ryan on screen?::a::a Alec Baldwin; b Ben Affleck; c Harrison Ford; d John Krasinski::medium::Movies & TV Questions
-What is the name of the song that Queen Elsa sings as she builds her ice castle in the movie Frozen?::c::a Let it Be; b Dance on Ice; c Let It Go; d Ice Castle::easy::Movies & TV Questions
-How many films did Sean Connery play James Bond in?::b::a Five; b Seven; c Six; d Four::hard::Movies & TV Questions
-Which Indiana Jones movie was released back in 1984?::a::a Indiana Jones and the Temple of Doom; b Indiana Jones and the Last Crusade; c Indiana Jones and the Kingdom of the Crystal Skull; d Raiders of the Lost Ark::medium::Movies & TV Questions
-How many Lord of the Rings films are there?::d::a Two; b Four; c Five; d Three::medium::Movies & TV Questions
-What was the name of the actor who played Jack Dawson in Titanic?::c::a Tom Hanks; b Tom Cruise; c Leonardo DiCaprio; d Keanu Reeves::easy::Movies & TV Questions
-Which popular TV show featured house Targaryen and Stark?::a::a Game of Thrones; b South Park; c DaVinci's Demons; d The Last of Us::easy::Movies & TV Questions
-What was the name of the family who starred in 7th Heaven?::b::a The Jones; b The Camdens; c The Williams; d The Monroes::hard::Movies & TV Questions
-Which cartoon character lives in a pineapple under the sea?::d::a Bugs Bunny; b Donald Duck; c Peter Griffin; d Spongebob Squarepants::easy::Movies & TV Questions
-In what year was the first episode of South Park aired?::c::a 1998; b 1999; c 1997; d 1994::hard::Movies & TV Questions
-Who is the first actor to play Jack Ryan on screen?::a::a Alec Baldwin; b Ben Affleck; c Harrison Ford; d John Krasinski::medium::Movies & TV Questions

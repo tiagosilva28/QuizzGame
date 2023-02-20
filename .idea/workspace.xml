@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Update commands lists">
-      <change afterPath="$PROJECT_DIR$/resources/leaderboard.txt" afterDir="false" />
+    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Stable version">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/questions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/questions.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +280,21 @@
       <option name="project" value="LOCAL" />
       <updated>1676887793421</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Stable version">
+      <created>1676894406079</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1676894406079</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Stable version">
+      <created>1676894435744</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1676894435744</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -323,7 +334,8 @@
     <MESSAGE value="wait for next question and shuffle questions" />
     <MESSAGE value="Merge Dani and Tiago updates - check winner and wait() for another question" />
     <MESSAGE value="Update commands lists" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update commands lists" />
+    <MESSAGE value="Stable version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Stable version" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
