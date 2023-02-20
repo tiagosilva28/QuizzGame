@@ -6,17 +6,16 @@ public abstract class Messages {
     public static final String CLIENT_ENTERED_CHAT = " entered the chat.";
     public static final String NO_SUCH_COMMAND = "⚠️ Invalid command!";
     public static final String COMMANDS_LIST = """
-            List of available commands:
-            /list -> gets you the list of connected clients
-            /shout <message> -> lets you shout a message to all connected clients
-            /whisper <username> <message> -> lets you whisper a message to a single connected client
-            /name <new name> -> lets you change your name
+            List of the game commands:
+            /list -> gets you the list of connected players
+            /name <new name> -> lets you change your userName
             /quit -> exits the server\n""";
     public static final String CLIENT_DISCONNECTED = " left the chat.";
     public static final String WHISPER_INSTRUCTIONS = "Invalid whisper use. Correct use: '/whisper <username> <message>";
     public static final String NO_SUCH_CLIENT = "The client you want to whisper to doesn't exists.";
     public static final String WHISPER = "(whisper)";
     public static final String WELCOME = " " +
+            "\n" +
             "#######  ##     ## #### ########     ######      ###    ##     ## ######## \n" +
             "##     ## ##     ##  ##       ##     ##    ##    ## ##   ###   ### ##       \n" +
             "##     ## ##     ##  ##      ##      ##         ##   ##  #### #### ##       \n" +

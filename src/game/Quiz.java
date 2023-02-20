@@ -20,10 +20,8 @@ public class Quiz {
     private ServerSocket serverSocket;
     private ExecutorService service;
     private Queue<Question> questions = new LinkedList<>();
-    private boolean hasResponded = true;
     private int numberOfOnlinePlayers = 0;
-    private int numberOfResponses = 0;
-
+    private Map<Integer, Integer> numberOfResponsesByRound = new HashMap<>();
 
     public Quiz() {
         players = new CopyOnWriteArrayList<>();
@@ -98,9 +96,8 @@ public class Quiz {
                 }
             }
         }
-
-
-        sendToMySelf(playerController.getUserName(), playerController.playerQuestions.element().toString());
+        sendToMySelf(playerController.getUserName(), "Round: " + playerController.round);
+        sendToMySelf(playerController.getUserName(), "\n" + playerController.playerQuestions.element().toString());
         //if (numberOfResponses >= numberOfOnlinePlayers) numberOfResponses = 0;
     }
 
@@ -117,14 +114,12 @@ public class Quiz {
         }
         playerController.playerQuestions.remove();
         sendToMySelf(playerController.getUserName(), Messages.NEXT_QUESTION);
-        playerController.round++;
 
         synchronized (lock) {
-            ++numberOfResponses;
-            if (numberOfResponses > numberOfOnlinePlayers) numberOfResponses = 1;
+            int numberOfResponsesThisRound = numberOfResponsesByRound.getOrDefault(playerController.round, 0);
+            numberOfResponsesByRound.put(playerController.round, (numberOfResponsesThisRound + 1));
             lock.notifyAll();
         }
-
     }
 
     private void calculateAndSetScore(PlayerController playerController) {
@@ -173,9 +168,8 @@ public class Quiz {
     }
 
     protected void nextQuestion(PlayerController playerController, String playerInput) {
-
         synchronized (lock) {
-            while (numberOfResponses < numberOfOnlinePlayers) {
+            while (numberOfResponsesByRound.getOrDefault(playerController.round, 0) < numberOfOnlinePlayers) {
                 try {
                     lock.wait();
                 } catch (InterruptedException e) {
@@ -184,27 +178,32 @@ public class Quiz {
             }
         }
 
+
         switch (playerInput) {
             case "*next":
+                playerController.round++;
                 sendQuestion(playerController);
                 break;
             case "*easy":
+                playerController.round++;
                 String easyQuestion = playerController.playerQuestions.stream()
                         .filter(question -> question.difficulty
                                 .equals("easy")).map(question -> question.toString()).findFirst().orElse(" ");
-                sendToMySelf(playerController.getUserName(), easyQuestion);
+                sendToMySelf(playerController.getUserName(), "\n" + easyQuestion);
                 break;
             case "*medium":
+                playerController.round++;
                 String mediumQuestion = playerController.playerQuestions.stream()
                         .filter(question -> question.difficulty
                                 .equals("medium")).map(question -> question.toString()).findFirst().orElse(" ");
-                sendToMySelf(playerController.getUserName(), mediumQuestion);
+                sendToMySelf(playerController.getUserName(), "\n" + mediumQuestion);
                 break;
             case "*hard":
+                playerController.round++;
                 String hardQuestion = playerController.playerQuestions.stream()
                         .filter(question -> question.difficulty
                                 .equals("hard")).map(question -> question.toString()).findFirst().orElse(" ");
-                sendToMySelf(playerController.getUserName(), hardQuestion);
+                sendToMySelf(playerController.getUserName(), "\n" + hardQuestion);
                 break;
         }
 
@@ -249,7 +248,7 @@ public class Quiz {
         private BufferedWriter out;
         private String message;
         private int score = 0;
-        private int round;
+        private int round = 1;
         private Queue<Question> playerQuestions = new LinkedList<>(questions);
 
         private PlayerController(Socket playerSocket, String userName) throws IOException {
@@ -270,28 +269,28 @@ public class Quiz {
                 Scanner in = new Scanner(playerSocket.getInputStream());
                 sendToMySelf(this.userName, "Write your username: ");
                 String userName = in.nextLine();
+                sendToMySelf(this.userName, "\n");
                 setUserName(userName);
 
                 sendQuestion(this);
 
                 while (in.hasNext()) {
-
                     message = in.nextLine();
                     if (isCommand(message)) {
                         dealWithCommand(message);
                         continue;
                     }
-                    if (isAnAnswer(message) || isACommandForNextQuestion(message)) {
+                    if (isAnAnswer(message)) {
                         checkAnswer(message, this);
-                        nextQuestion(this, message);
                         showPlayerScore(this);
                         checkWinner(this);
                         continue;
                     }
-                    if (message.equals("")) {
+                    if (isACommandForNextQuestion(message)) {
+                        nextQuestion(this, message);
                         continue;
                     }
-                    sendToAll(userName, message);
+                    sendToMySelf(this.userName, "Invalid command, please write again.");
                 }
 
             } catch (IOException e) {
