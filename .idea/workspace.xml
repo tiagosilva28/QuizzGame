@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Merge Dani and Tiago updates - check winner and wait() for another question">
+    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Update commands lists">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QuizzGame.iml" beforeDir="false" afterPath="$PROJECT_DIR$/QuizzGame.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quiz.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/messages/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/messages/Messages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +43,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="runGameConsole" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -268,7 +266,21 @@
       <option name="project" value="LOCAL" />
       <updated>1676742748790</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Update commands lists">
+      <created>1676887711296</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1676887711296</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Update commands lists">
+      <created>1676887793421</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1676887793421</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -307,7 +319,8 @@
     <MESSAGE value="Rearrange Classes" />
     <MESSAGE value="wait for next question and shuffle questions" />
     <MESSAGE value="Merge Dani and Tiago updates - check winner and wait() for another question" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge Dani and Tiago updates - check winner and wait() for another question" />
+    <MESSAGE value="Update commands lists" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update commands lists" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

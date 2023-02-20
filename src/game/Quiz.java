@@ -43,7 +43,6 @@ public class Quiz {
                 ++numberOfOnlinePlayers;
                 lock.notifyAll();
             }
-
         }
     }
 
@@ -54,14 +53,12 @@ public class Quiz {
                 new PlayerController(playerSocket,
                         Messages.DEFAULT_NAME + numberOfConnections);
         service.submit(playerController);
-        //addClient(clientConnectionHandler);
     }
 
     private void addPlayerAndStartGame(PlayerController playerController) {
         players.add(playerController);
         playerController.send(Messages.WELCOME.formatted(playerController.getUserName()));
         playerController.send(Messages.COMMANDS_LIST);
-
     }
 
     protected void splitAndCreateQuestionsQueue() {
@@ -98,7 +95,7 @@ public class Quiz {
         }
         sendToMySelf(playerController.getUserName(), "Round: " + playerController.round);
         sendToMySelf(playerController.getUserName(), "\n" + playerController.playerQuestions.element().toString());
-        //if (numberOfResponses >= numberOfOnlinePlayers) numberOfResponses = 0;
+
     }
 
     private void checkAnswer(String playerAnswer, PlayerController playerController) {
@@ -178,7 +175,6 @@ public class Quiz {
             }
         }
 
-
         switch (playerInput) {
             case "*next":
                 playerController.round++;
@@ -207,8 +203,6 @@ public class Quiz {
                 break;
         }
 
-
-        //sendQuestion(playerController);
         showPlayerScore(playerController);
     }
 
@@ -322,7 +316,6 @@ public class Quiz {
                 out.flush();
                 return;
             }
-
             command.getHandler().execute(Quiz.this, this);
         }
 
@@ -366,9 +359,6 @@ public class Quiz {
             return message;
         }
 
-        public void setPlayerQuestions(Queue<Question> playerQuestions) {
-            this.playerQuestions = playerQuestions;
-        }
     }
 }
 
