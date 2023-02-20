@@ -3,11 +3,14 @@ package messages;
 public abstract class Messages {
     public static final String SERVER_STARTED = "Server started on port: %s";
     public static final String DEFAULT_NAME = "CLIENT-";
-    public static final String CLIENT_ENTERED_CHAT = " entered the chat.";
     public static final String NO_SUCH_COMMAND = "⚠️ Invalid command!";
     public static final String COMMANDS_LIST = """
             List of the game commands:
             /list -> gets you the list of connected players
+            *next -> picks you a random question
+            *easy -> picks you a random easy question
+            *medium -> picks you a random medium question
+            *hard -> picks you a random hard question
             /name <new name> -> lets you change your userName
             /quit -> exits the server\n""";
     public static final String CLIENT_DISCONNECTED = " left the chat.";
