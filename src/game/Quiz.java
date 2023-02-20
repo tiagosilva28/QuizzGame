@@ -97,6 +97,20 @@ public class Quiz {
         }
 
         sendToMySelf(playerController.getUserName(), playerController.playerQuestions.element().toString());
+
+        Timer timer = new Timer();
+        playerController.questionTimer = timer;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (!playerController.playerQuestions.isEmpty()) {
+                    sendToMySelf(playerController.getUserName(), "Time's up!");
+                    playerController.playerQuestions.remove();
+                    sendToMySelf(playerController.getUserName(), Messages.NEXT_QUESTION);
+                    playerController.round++;
+                }
+            }
+        }, 5000);
     }
 
     private void checkAnswer(String playerAnswer, PlayerController playerController) {
@@ -107,12 +121,16 @@ public class Quiz {
             calculateAndSetScore(playerController);
             sendToMySelf(playerController.getUserName(), Messages.CORRECT_ANSWER);
             sendToMySelf(playerController.getUserName(), "Your score is: " + String.valueOf(playerController.getScore()));
+            playerController.questionTimer.cancel();
+
         } else {
             sendToMySelf(playerController.getUserName(), Messages.WRONG_ANSWER);
         }
         playerController.playerQuestions.remove();
         sendToMySelf(playerController.getUserName(), Messages.NEXT_QUESTION);
         playerController.round++;
+        playerController.questionTimer.cancel();
+
     }
 
     private void calculateAndSetScore(PlayerController playerController) {
@@ -207,6 +225,7 @@ public class Quiz {
 
     public class PlayerController implements Runnable {
 
+        public Timer questionTimer;
         private String userName;
         private Socket playerSocket;
         private BufferedWriter out;
@@ -257,7 +276,6 @@ public class Quiz {
             }
 
         }
-
 
         private boolean isCommand(String message) {
             return message.startsWith("/");
@@ -328,6 +346,7 @@ public class Quiz {
         public void setPlayerQuestions(Queue<Question> playerQuestions) {
             this.playerQuestions = playerQuestions;
         }
+
     }
 }
 

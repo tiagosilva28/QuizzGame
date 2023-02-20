@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="Rearrange Classes">
+    <list default="true" id="24eba8c9-07f9-4f3b-b843-c8cddc90caab" name="Changes" comment="New Questions (Comics)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/questions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/questions.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Quiz.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +57,7 @@
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="33d7a5a6-3f9b-42b2-b1ea-d55022766d8a" />
+        <option name="accountId" value="fac4baa3-673c-410f-af61-6b00d79c2a7e" />
         <option name="url" value="https://github.com/tiagosilva28/QuizzGame.git" />
       </UrlAndAccount>
     </option>
@@ -95,7 +96,7 @@
       <recent name="messages" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Player">
+  <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="game.App" />
       <module name="QuizzGame" />
@@ -243,7 +244,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="branch2" />
+                        <option value="Timer" />
                       </list>
                     </value>
                   </entry>
@@ -267,6 +268,17 @@
     <MESSAGE value="Only send questions to clients when have 2 players connected" />
     <MESSAGE value="Rearrange Classes" />
     <option name="LAST_COMMIT_MESSAGE" value="Rearrange Classes" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/Quiz.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
